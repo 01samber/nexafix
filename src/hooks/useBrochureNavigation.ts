@@ -1,23 +1,47 @@
 "use client";
 
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { SCENES } from "@/data/scenes";
 
 export function useBrochureNavigation() {
-  const [currentIndex, setCurrentIndex] = useState(0);
   const totalScenes = SCENES.length;
 
-  const goTo = useCallback((index: number) => {
+  const [currentIndex, setCurrentIndexState] = useState(0);
+
+  const setCurrentIndex = useCallback((index: number) => {
     const clamped = Math.max(0, Math.min(index, totalScenes - 1));
-    setCurrentIndex(clamped);
+    setCurrentIndexState(clamped);
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      url.searchParams.set("page", String(clamped + 1));
+      window.history.replaceState({}, "", url.toString());
+    }
   }, [totalScenes]);
 
+  const goTo = useCallback((index: number) => setCurrentIndex(index), [setCurrentIndex]);
+
   const next = useCallback(() => {
-    setCurrentIndex((i) => Math.min(i + 1, totalScenes - 1));
+    setCurrentIndexState((i) => {
+      const nextIdx = Math.min(i + 1, totalScenes - 1);
+      if (typeof window !== "undefined") {
+        const url = new URL(window.location.href);
+        url.searchParams.set("page", String(nextIdx + 1));
+        window.history.replaceState({}, "", url.toString());
+      }
+      return nextIdx;
+    });
   }, [totalScenes]);
 
   const prev = useCallback(() => {
-    setCurrentIndex((i) => Math.max(i - 1, 0));
+    setCurrentIndexState((i) => {
+      const prevIdx = Math.max(i - 1, 0);
+      if (typeof window !== "undefined") {
+        const url = new URL(window.location.href);
+        url.searchParams.set("page", String(prevIdx + 1));
+        window.history.replaceState({}, "", url.toString());
+      }
+      return prevIdx;
+    });
   }, []);
 
   const handleWheel = useCallback(
@@ -32,18 +56,17 @@ export function useBrochureNavigation() {
     [next, prev]
   );
 
+  const touchStartX = useRef<number>(0);
   const handleTouchStart = useCallback((e: Event) => {
     const te = e as TouchEvent;
-    (window as unknown as { touchStartY?: number }).touchStartY =
-      te.touches[0].clientY;
+    touchStartX.current = te.touches[0].clientX;
   }, []);
 
   const handleTouchEnd = useCallback(
     (e: Event) => {
       const te = e as TouchEvent;
-      const touchEndY = te.changedTouches[0].clientY;
-      const touchStartY = (window as unknown as { touchStartY?: number }).touchStartY ?? touchEndY;
-      const diff = touchStartY - touchEndY;
+      const touchEndX = te.changedTouches[0].clientX;
+      const diff = touchStartX.current - touchEndX;
       if (Math.abs(diff) > 50) {
         if (diff > 0) next();
         else prev();
@@ -54,10 +77,10 @@ export function useBrochureNavigation() {
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
-      if (e.key === "ArrowDown" || e.key === " ") {
+      if (e.key === "ArrowRight" || e.key === "ArrowDown" || e.key === " ") {
         e.preventDefault();
         next();
-      } else if (e.key === "ArrowUp") {
+      } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
         e.preventDefault();
         prev();
       } else if (e.key === "Home") {
@@ -68,6 +91,13 @@ export function useBrochureNavigation() {
     },
     [next, prev, goTo, totalScenes]
   );
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const params = new URLSearchParams(window.location.search);
+    const page = parseInt(params.get("page") ?? "1", 10);
+    if (page >= 1 && page <= totalScenes) setCurrentIndexState(page - 1);
+  }, [totalScenes]);
 
   useEffect(() => {
     window.addEventListener("keydown", handleKeyDown);

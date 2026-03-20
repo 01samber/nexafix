@@ -7,8 +7,7 @@ import { QRCodeSVG } from "qrcode.react";
 import { Scene3DLazy } from "@/components/3D/Scene3DLazy";
 import { PremiumButton } from "@/components/ui/PremiumButton";
 import { useIsMobile } from "@/hooks/useIsMobile";
-
-const ASSESSMENT_URL = "https://nexafix.com/assessment";
+import { CONFIG } from "@/data/config";
 
 export function CTAScene() {
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -55,6 +54,9 @@ export function CTAScene() {
         <p ref={textRef} className="mb-8 text-base text-white/90 sm:mb-10 sm:text-lg md:mb-12 md:text-xl">
           Scan to get a free facility assessment.
           <br />
+          {CONFIG.boothNumber !== "TBD" && (
+            <>Visit us at ConnexFM {CONFIG.eventYear} — Booth {CONFIG.boothNumber}. </>
+          )}
           Or speak to us today at our booth.
         </p>
         {/* QR beacon for free facility assessment */}
@@ -72,7 +74,7 @@ export function CTAScene() {
         >
           <div className="flex flex-col items-center justify-center rounded-xl border-2 border-[#00d4ff]/50 bg-white p-3 sm:p-4">
             <QRCodeSVG
-              value={ASSESSMENT_URL}
+              value={CONFIG.assessmentUrl}
               size={isMobile ? 128 : 160}
               level="H"
               includeMargin={false}
@@ -81,9 +83,11 @@ export function CTAScene() {
             <span className="mt-2 text-xs font-medium text-[#0a0e17]">Free Facility Assessment</span>
           </div>
         </motion.div>
-        <PremiumButton size="lg" variant="primary">
-          Speak to Us at Booth
-        </PremiumButton>
+        <a href={`mailto:${CONFIG.email}?subject=Nexafix%20-%20ConnexFM%20${CONFIG.eventYear}%20Inquiry`}>
+          <PremiumButton size="lg" variant="primary">
+            Speak to Us at Booth
+          </PremiumButton>
+        </a>
       </div>
     </div>
   );

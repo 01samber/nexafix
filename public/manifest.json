@@ -1,0 +1,10 @@
+{
+  "name": "Nexafix | ConnexFM Expo",
+  "short_name": "Nexafix",
+  "description": "Smart Facility Maintenance. Fast Response. Reliable Execution.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0e17",
+  "theme_color": "#00d4ff",
+  "orientation": "portrait-primary"
+}

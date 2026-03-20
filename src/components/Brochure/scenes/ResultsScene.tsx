@@ -4,6 +4,7 @@ import { useRef, useEffect } from "react";
 import { motion } from "motion/react";
 import gsap from "gsap";
 import { Scene3DLazy } from "@/components/3D/Scene3DLazy";
+import { CONFIG } from "@/data/config";
 
 const METRICS = [
   "Reduced downtime.",
@@ -72,6 +73,13 @@ export function ResultsScene() {
         >
           Built for businesses that can&apos;t afford interruptions.
         </p>
+        <p className="mt-4 text-sm text-white/50">
+          {CONFIG.facilitiesServed}+ facilities served
+        </p>
+        <blockquote className="mt-6 max-w-md text-sm italic text-white/60">
+          &ldquo;{CONFIG.testimonial}&rdquo;
+          <span className="block mt-1 not-italic text-white/40">{CONFIG.testimonialAttribution}</span>
+        </blockquote>
       </div>
     </div>
   );

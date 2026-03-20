@@ -43,7 +43,7 @@ export function ProgressIndicator({ currentIndex, onNavigate }: ProgressIndicato
   if (isMobile) {
     return (
       <div
-        className="fixed left-0 right-0 top-0 z-50 flex items-center gap-3 px-3 pb-2 pt-[calc(0.5rem+env(safe-area-inset-top,0px))]"
+        className="print:hidden fixed left-0 right-0 top-0 z-50 flex items-center gap-3 px-3 pb-2 pt-[calc(0.5rem+env(safe-area-inset-top,0px))]"
       >
         {/* Slim segmented bar at top — out of the way of brochure content */}
         <div className="flex flex-1 gap-px overflow-hidden rounded-full bg-black/30 p-1 backdrop-blur-md">
@@ -72,7 +72,7 @@ export function ProgressIndicator({ currentIndex, onNavigate }: ProgressIndicato
   }
 
   return (
-    <div className="fixed right-4 top-1/2 z-50 hidden -translate-y-1/2 flex-col gap-2 sm:right-6 sm:flex sm:gap-3">
+    <div className="print:hidden fixed right-4 top-1/2 z-50 hidden -translate-y-1/2 flex-col gap-2 sm:right-6 sm:flex sm:gap-3">
       {SCENES.map((_, i) => (
         <div key={SCENES[i].id} className="group relative flex items-center justify-end">
           {dot(i)}

@@ -4,8 +4,14 @@ import { useRef, useEffect } from "react";
 import { motion } from "motion/react";
 import gsap from "gsap";
 import { Scene3DLazy } from "@/components/3D/Scene3DLazy";
+import { CONFIG } from "@/data/config";
 
-const FOOTER = ["Nexafix", "nexafix.com", "info@nexafix.com", "+1 (555) 123-4567"];
+const FOOTER = [
+  "Nexafix",
+  CONFIG.website.replace(/^https?:\/\//, ""),
+  CONFIG.email,
+  CONFIG.phone,
+];
 
 export function BackCoverScene() {
   const taglineRef = useRef<HTMLHeadingElement>(null);
