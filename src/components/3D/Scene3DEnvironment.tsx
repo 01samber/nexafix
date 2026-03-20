@@ -104,8 +104,8 @@ function AccretionRings({ scale = 1 }: { scale?: number }) {
 function OrbitingCamera({ mobile }: { mobile: boolean }) {
   useFrame((state) => {
     const t = state.clock.elapsedTime * 0.11;
-    // Mobile: larger orbit radius so shapes fit fully in narrow viewport
-    const r = mobile ? 7 : 5.5;
+    // Mobile: further back + wider view so full scaled-down shape is visible
+    const r = mobile ? 8.5 : 5.5;
     const x = Math.sin(t) * r;
     const z = Math.cos(t) * r;
     const y = Math.sin(t * 0.65) * (mobile ? 1.5 : 1.2);
@@ -403,7 +403,7 @@ export function Scene3DEnvironment({ variant }: Scene3DEnvironmentProps) {
       <Canvas
         camera={{
           position: [5, 0, 0],
-          fov: mobile ? 65 : 55, // Wider FOV on mobile to show full shapes
+          fov: mobile ? 72 : 55, // Wider FOV on mobile so full shapes fit
         }}
         dpr={mobile ? [1, 1.5] : [1, 2]}
         gl={{ antialias: true, alpha: false, powerPreference: "high-performance" }}
@@ -414,12 +414,12 @@ export function Scene3DEnvironment({ variant }: Scene3DEnvironmentProps) {
         <pointLight position={[0, 0, 0]} intensity={2} color="#00d4ff" distance={15} decay={2} />
         <pointLight position={[3, 2, 2]} intensity={0.3} color="#0099cc" />
         <OrbitingCamera mobile={mobile} />
-        {/* On mobile: offset central shape upward to clear center for text */}
-        <group position={[0, mobile ? 1.8 : 0, 0]}>
+        {/* On mobile: scale down shapes + offset up so full shape fits without covering text */}
+        <group position={[0, mobile ? 1.2 : 0, 0]} scale={mobile ? 0.55 : 1}>
           <CentralShape variant={variant} />
         </group>
         <VoidParticles count={mobile ? 320 : 600} />
-        <AccretionRings />
+        <AccretionRings scale={mobile ? 0.7 : 1} />
       </Canvas>
     </div>
   );
