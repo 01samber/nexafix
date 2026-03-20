@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Nexafix Expo Microsite
 
-## Getting Started
+**Fix It Before It Fails.**  
+World-class interactive digital brochure for ConnexFM Expo.
 
-First, run the development server:
+## Quick Start
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+npm run start
+```
 
-## Learn More
+## Features
 
-To learn more about Next.js, take a look at the following resources:
+- **9-scene cinematic flow** — Cover → Problem → Solution → Services → Why → Process → Results → CTA → Back
+- **2.5D experience** — 3D hero on cover, 3D facility operations on Solution
+- **GSAP + Motion** — Premium animations, microinteractions, ambient motion
+- **Touch & kiosk ready** — Swipe, tap, keyboard, wheel navigation
+- **QR code** — CTA scene with scannable QR for free facility assessment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Tech Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Next.js 16 (App Router)
+- React 19
+- Tailwind CSS 4
+- GSAP
+- Motion (Framer Motion)
+- React Three Fiber + Drei
+- qrcode.react
 
-## Deploy on Vercel
+## Customization
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+| Item | File |
+|------|------|
+| QR assessment URL | `src/components/Brochure/scenes/CTAScene.tsx` → `ASSESSMENT_URL` |
+| Contact footer | `src/components/Brochure/scenes/BackCoverScene.tsx` → `FOOTER` |
+| Design tokens | `src/app/globals.css` → `:root` |
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Creative Direction
+
+See **[CREATIVE_DIRECTION.md](./CREATIVE_DIRECTION.md)** for full creative direction, UX structure, design system, motion storyboard, and expo implementation guidance.
+
+---
+
+*Nexafix — Maintenance You Can Finally Trust.*
