@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useEffect, useRef } from "react";
 import { SCENES } from "@/data/scenes";
+import { playTapSound } from "@/utils/playTapSound";
 
 export function useBrochureNavigation() {
   const totalScenes = SCENES.length;
@@ -68,6 +69,7 @@ export function useBrochureNavigation() {
       const touchEndX = te.changedTouches[0].clientX;
       const diff = touchStartX.current - touchEndX;
       if (Math.abs(diff) > 50) {
+        playTapSound();
         if (diff > 0) next();
         else prev();
       }

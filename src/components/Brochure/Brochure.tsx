@@ -1,7 +1,9 @@
 "use client";
 
+import { useCallback } from "react";
 import { useBrochureNavigation } from "@/hooks/useBrochureNavigation";
 import { useIsMobile } from "@/hooks/useIsMobile";
+import { playTapSound } from "@/utils/playTapSound";
 import { SceneWrapper } from "./SceneWrapper";
 import { CoverScene } from "./scenes/CoverScene";
 import { ProblemScene } from "./scenes/ProblemScene";
@@ -40,6 +42,14 @@ export function Brochure() {
   } = useBrochureNavigation();
   const isMobile = useIsMobile();
 
+  const handleNavigate = useCallback(
+    (index: number) => {
+      if (isMobile) playTapSound();
+      goTo(index);
+    },
+    [goTo, isMobile]
+  );
+
   return (
     <div
       data-brochure-container
@@ -57,7 +67,7 @@ export function Brochure() {
       </div>
 
       {/* Progress indicator */}
-      <ProgressIndicator currentIndex={currentIndex} onNavigate={goTo} />
+      <ProgressIndicator currentIndex={currentIndex} onNavigate={handleNavigate} />
 
       {/* Share - mobile only */}
       <div className="print:hidden">{isMobile && <BrochureActions />}</div>
