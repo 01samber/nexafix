@@ -59,16 +59,14 @@ export function Brochure() {
       {/* Progress indicator */}
       <ProgressIndicator currentIndex={currentIndex} onNavigate={goTo} />
 
-      {/* Share & Print */}
-      <div className="print:hidden">
-        <BrochureActions />
-      </div>
+      {/* Share - mobile only */}
+      <div className="print:hidden">{isMobile && <BrochureActions />}</div>
 
-      {/* Nav arrows - 44px min touch target, safe-area for notched phones */}
-      {hasPrev && (
+      {/* Nav arrows - desktop only; mobile uses swipe */}
+      {!isMobile && hasPrev && (
         <motion.button
           onClick={prev}
-          className="fixed top-1/2 z-50 flex min-h-[40px] print:hidden min-w-[40px] -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/25 p-1.5 backdrop-blur-sm transition-all hover:border-[#00d4ff]/50 hover:bg-[#00d4ff]/10 active:scale-95 sm:min-h-[44px] sm:min-w-[44px] sm:p-3 sm:border-white/20 sm:bg-black/40 left-[max(0.5rem,env(safe-area-inset-left))] sm:left-6"
+          className="fixed top-1/2 z-50 flex min-h-[44px] min-w-[44px] -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/40 p-3 backdrop-blur-sm transition-all hover:border-[#00d4ff]/50 hover:bg-[#00d4ff]/10 left-6"
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
           whileHover={{ scale: 1.1 }}
@@ -76,7 +74,7 @@ export function Brochure() {
           aria-label="Previous"
         >
           <svg
-            className="h-5 w-5 text-white sm:h-6 sm:w-6"
+            className="h-6 w-6 text-white"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -85,10 +83,10 @@ export function Brochure() {
           </svg>
         </motion.button>
       )}
-      {hasNext && (
+      {!isMobile && hasNext && (
         <motion.button
           onClick={next}
-          className="print:hidden fixed top-1/2 z-50 flex min-h-[40px] min-w-[40px] -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/25 p-1.5 backdrop-blur-sm transition-all hover:border-[#00d4ff]/50 hover:bg-[#00d4ff]/10 active:scale-95 sm:min-h-[44px] sm:min-w-[44px] sm:p-3 sm:border-white/20 sm:bg-black/40 right-[max(0.5rem,env(safe-area-inset-right))] sm:right-20"
+          className="fixed top-1/2 z-50 flex min-h-[44px] min-w-[44px] -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/40 p-3 backdrop-blur-sm transition-all hover:border-[#00d4ff]/50 hover:bg-[#00d4ff]/10 right-20"
           initial={{ opacity: 0, x: 20 }}
           animate={{ opacity: 1, x: 0 }}
           whileHover={{ scale: 1.1 }}
@@ -96,7 +94,7 @@ export function Brochure() {
           aria-label="Next"
         >
           <svg
-            className="h-5 w-5 text-white sm:h-6 sm:w-6"
+            className="h-6 w-6 text-white"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
