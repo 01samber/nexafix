@@ -48,6 +48,10 @@
 html {
   scroll-behavior: auto;
   -webkit-tap-highlight-color: transparent;
+  /* Mobile: stable full-screen height (avoid iOS 100vh / chrome UI clipping) */
+  height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 body {
@@ -57,6 +61,9 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
 }
 
 /* Safe area utilities for notched phones - use with fixed elements */

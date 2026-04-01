@@ -53,7 +53,7 @@ export function Brochure() {
   return (
     <div
       data-brochure-container
-      className="relative flex min-h-dvh w-full max-md:max-h-[100dvh] max-md:flex-col max-md:overflow-hidden touch-pan-y overflow-x-hidden md:block md:max-h-none"
+      className="relative flex min-h-dvh w-full max-w-[100%] touch-pan-y overflow-x-clip max-md:h-dvh max-md:max-h-dvh max-md:flex-col max-md:overflow-hidden md:block md:max-h-none"
     >
       <AmbientMotion />
 
