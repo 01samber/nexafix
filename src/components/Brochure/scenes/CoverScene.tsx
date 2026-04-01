@@ -1,14 +1,19 @@
 "use client";
 
 import { useRef, useEffect } from "react";
+import Image from "next/image";
 import { motion } from "motion/react";
 import gsap from "gsap";
 import { Scene3DLazy } from "@/components/3D/Scene3DLazy";
 
+const LOGO_SIZE = {
+  cls: "h-[min(38vw,220px)] w-[min(85vw,320px)] sm:h-[min(32vw,260px)] sm:w-[min(72vw,340px)] md:h-[280px] md:w-[360px]",
+};
+
 export function CoverScene() {
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const subRef = useRef<HTMLParagraphElement>(null);
-  const brandRef = useRef<HTMLParagraphElement>(null);
+  const taglineRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     const tl = gsap.timeline({ delay: 0.3 });
@@ -24,7 +29,7 @@ export function CoverScene() {
         "-=0.5"
       )
       .fromTo(
-        brandRef.current,
+        taglineRef.current,
         { opacity: 0 },
         { opacity: 1, duration: 0.6 },
         "-=0.3"
@@ -32,10 +37,35 @@ export function CoverScene() {
   }, []);
 
   return (
-    <div className="relative flex min-h-dvh w-full flex-col items-center justify-center px-4 py-6 text-center sm:px-6 md:px-8">
+    <div className="relative flex min-h-dvh w-full flex-col items-center justify-center bg-[#0a0e17] px-4 py-6 text-center sm:px-6 md:px-8">
       <Scene3DLazy variant="cover" />
-      {/* On mobile: extra top padding so text sits below 3D zone; desktop: centered */}
-      <div className="relative z-10 flex flex-col items-center gap-4 pt-[28vh] sm:pt-0 sm:gap-6">
+
+      <motion.div
+        className={`relative z-[11] mx-auto flex shrink-0 items-center justify-center ${LOGO_SIZE.cls}`}
+        initial={{ opacity: 0, scale: 0.96 }}
+        animate={{
+          opacity: 1,
+          scale: 1,
+          rotate: [0, 2, 0, -2, 0],
+        }}
+        transition={{
+          opacity: { duration: 0.6 },
+          scale: { duration: 0.6 },
+          rotate: { duration: 12, repeat: Infinity, ease: "easeInOut" },
+        }}
+        aria-hidden
+      >
+        <Image
+          src="/nexafix-logo.png"
+          alt="Nexafix — NEXA LEVEL SERVICE"
+          width={720}
+          height={640}
+          priority
+          className="h-full w-full object-contain object-center drop-shadow-[0_0_28px_rgba(0,212,255,0.18)]"
+        />
+      </motion.div>
+
+      <div className="relative z-10 flex flex-col items-center gap-4 pt-6 sm:gap-6 md:pt-10">
         <h1
           ref={headlineRef}
           className="font-display text-3xl font-extrabold leading-tight tracking-tight text-white drop-shadow-[0_0_40px_rgba(0,212,255,0.3)] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl"
@@ -53,10 +83,10 @@ export function CoverScene() {
           Smart Facility Maintenance. Fast Response. Reliable Execution.
         </p>
         <p
-          ref={brandRef}
-          className="font-display mt-6 text-xl font-bold tracking-[0.2em] text-[#00d4ff] sm:mt-8 sm:text-2xl sm:tracking-[0.3em] md:text-3xl"
+          ref={taglineRef}
+          className="font-display text-sm font-semibold tracking-[0.35em] text-[#00d4ff]/80 sm:text-base sm:tracking-[0.4em]"
         >
-          NEXAFIX
+          NEXA LEVEL SERVICE
         </p>
       </div>
       <motion.div

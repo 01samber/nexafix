@@ -361,7 +361,7 @@ function ShapeBack() {
 function CentralShape({ variant }: { variant: SceneVariant }) {
   switch (variant) {
     case "cover":
-      return <ShapeCover />;
+      return null;
     case "problem":
       return <ShapeProblem />;
     case "solution":
@@ -387,9 +387,12 @@ interface Scene3DEnvironmentProps {
   variant: SceneVariant;
 }
 
+const SITE_BG = "#0a0e17";
+
 export function Scene3DEnvironment({ variant }: Scene3DEnvironmentProps) {
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
   const [mobile, setMobile] = useState(isMobile);
+  const isCover = variant === "cover";
 
   useEffect(() => {
     const check = () => setMobile(window.innerWidth < 768);
@@ -398,23 +401,24 @@ export function Scene3DEnvironment({ variant }: Scene3DEnvironmentProps) {
     return () => window.removeEventListener("resize", check);
   }, []);
 
+  const bgHex = isCover ? SITE_BG : "#000000";
+
   return (
-    <div className="absolute inset-0 -z-10 bg-[#000000]">
+    <div className={`absolute inset-0 -z-10 ${isCover ? "bg-[#0a0e17]" : "bg-[#000000]"}`}>
       <Canvas
         camera={{
           position: [5, 0, 0],
-          fov: mobile ? 72 : 55, // Wider FOV on mobile so full shapes fit
+          fov: mobile ? 72 : 55,
         }}
         dpr={mobile ? [1, 1.5] : [1, 2]}
         gl={{ antialias: true, alpha: false, powerPreference: "high-performance" }}
       >
-        <color attach="background" args={["#000000"]} />
-        <fog attach="fog" args={["#000000", mobile ? 6 : 5, 30]} />
+        <color attach="background" args={[bgHex]} />
+        <fog attach="fog" args={[bgHex, mobile ? 6 : 5, 30]} />
         <ambientLight intensity={0.1} />
         <pointLight position={[0, 0, 0]} intensity={2} color="#00d4ff" distance={15} decay={2} />
         <pointLight position={[3, 2, 2]} intensity={0.3} color="#0099cc" />
         <OrbitingCamera mobile={mobile} />
-        {/* On mobile: scale down shapes + offset up so full shape fits without covering text */}
         <group position={[0, mobile ? 1.2 : 0, 0]} scale={mobile ? 0.55 : 1}>
           <CentralShape variant={variant} />
         </group>
