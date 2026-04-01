@@ -12,7 +12,7 @@ export function SceneWrapper({ children, isActive }: SceneWrapperProps) {
 
   return (
     <motion.div
-      className="absolute inset-0 flex items-center justify-center"
+      className="w-full overflow-x-hidden md:absolute md:inset-0 md:flex md:items-center md:justify-center max-md:relative max-md:min-h-full max-md:overflow-visible"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.2 }}

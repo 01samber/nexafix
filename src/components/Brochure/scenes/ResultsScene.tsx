@@ -45,7 +45,7 @@ export function ResultsScene() {
   }, []);
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col items-center justify-center px-4 sm:px-6 md:px-8">
+    <div className="relative flex min-h-full w-full flex-col items-center justify-center px-4 sm:px-6 md:min-h-screen md:px-8">
       <Scene3DLazy variant="results" />
       <div className="relative z-10 max-w-3xl px-2 text-center">
         <h2
@@ -56,11 +56,7 @@ export function ResultsScene() {
         </h2>
         <div ref={metricsRef} className="mb-8 space-y-4 sm:mb-10 sm:space-y-5 md:mb-12 md:space-y-6">
           {METRICS.map((metric) => (
-            <motion.div
-              key={metric}
-              className="glass-panel-elevated rounded-xl px-5 py-4 sm:px-6 sm:py-5 md:px-8 md:py-6"
-              whileHover={{ scale: 1.02 }}
-            >
+            <motion.div key={metric} whileHover={{ scale: 1.02 }}>
               <span className="text-base font-medium text-white sm:text-lg md:text-xl lg:text-2xl">
                 {metric}
               </span>

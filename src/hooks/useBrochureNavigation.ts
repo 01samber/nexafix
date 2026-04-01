@@ -4,6 +4,11 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { SCENES } from "@/data/scenes";
 import { playTapSound } from "@/utils/playTapSound";
 
+function eventFromSuccessGallery(target: EventTarget | null): boolean {
+  if (typeof document === "undefined" || !(target instanceof Element)) return false;
+  return Boolean(target.closest("[data-success-gallery-modal]"));
+}
+
 export function useBrochureNavigation() {
   const totalScenes = SCENES.length;
 
@@ -47,6 +52,7 @@ export function useBrochureNavigation() {
 
   const handleWheel = useCallback(
     (e: Event) => {
+      if (eventFromSuccessGallery((e as WheelEvent).target)) return;
       const we = e as WheelEvent;
       if (Math.abs(we.deltaY) > 30) {
         we.preventDefault();
@@ -60,12 +66,14 @@ export function useBrochureNavigation() {
   const touchStartX = useRef<number>(0);
   const handleTouchStart = useCallback((e: Event) => {
     const te = e as TouchEvent;
+    if (eventFromSuccessGallery(te.target)) return;
     touchStartX.current = te.touches[0].clientX;
   }, []);
 
   const handleTouchEnd = useCallback(
     (e: Event) => {
       const te = e as TouchEvent;
+      if (eventFromSuccessGallery(te.target)) return;
       const touchEndX = te.changedTouches[0].clientX;
       const diff = touchStartX.current - touchEndX;
       if (Math.abs(diff) > 50) {
@@ -79,6 +87,9 @@ export function useBrochureNavigation() {
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
+      if (typeof document !== "undefined" && document.querySelector("[data-success-gallery-modal]")) {
+        return;
+      }
       if (e.key === "ArrowRight" || e.key === "ArrowDown" || e.key === " ") {
         e.preventDefault();
         next();

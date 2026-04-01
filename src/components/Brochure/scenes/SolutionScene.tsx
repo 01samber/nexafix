@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import { motion } from "motion/react";
 import gsap from "gsap";
 import { Scene3DLazy } from "@/components/3D/Scene3DLazy";
 
@@ -32,25 +31,33 @@ export function SolutionScene() {
   }, []);
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col items-center justify-center px-4 sm:px-6 md:px-8">
+    <div className="relative flex min-h-full w-full flex-col items-center justify-center px-4 sm:px-6 md:min-h-screen md:px-8">
       <Scene3DLazy variant="solution" />
-      <div className="relative z-10 max-w-2xl text-center">
+      <div className="relative z-10 mx-4 max-w-2xl px-4 py-6 text-center sm:px-6 sm:py-8 md:py-10">
         <h2
           ref={titleRef}
-          className="font-display mb-4 text-2xl font-bold text-white sm:mb-6 sm:text-3xl md:text-4xl lg:text-5xl"
+          className="font-display mb-5 text-2xl font-extrabold tracking-tight text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.08)] sm:mb-6 sm:text-3xl md:mb-7 md:text-4xl lg:text-5xl"
         >
-          Meet Nexafix
+          Meet{" "}
+          <span className="bg-gradient-to-r from-[#5cecff] via-[#00d4ff] to-[#00a8d4] bg-clip-text text-transparent drop-shadow-[0_0_24px_rgba(0,212,255,0.55)]">
+            Nexafix
+          </span>
         </h2>
         <p
           ref={p1Ref}
-          className="mb-4 text-base text-white/90 sm:mb-6 sm:text-lg md:text-xl"
+          className="mb-5 text-base leading-relaxed sm:mb-6 sm:text-lg md:text-xl"
         >
-          Nexafix is your next-generation facility maintenance partner — built to
-          deliver speed, reliability, and full operational control.
+          <span className="font-semibold text-[#7df0ff] drop-shadow-[0_0_14px_rgba(0,212,255,0.35)]">
+            Nexafix is your next-generation facility maintenance partner
+          </span>
+          <span className="text-white">
+            {" "}
+            — built to deliver speed, reliability, and full operational control.
+          </span>
         </p>
         <p
           ref={taglineRef}
-          className="text-lg font-semibold text-[#00d4ff] sm:text-xl md:text-2xl"
+          className="text-lg font-bold tracking-tight text-[#00eeff] drop-shadow-[0_0_28px_rgba(0,228,255,0.5)] sm:text-xl md:text-2xl"
         >
           We don&apos;t just fix problems. We prevent them.
         </p>

@@ -40,7 +40,7 @@ export function ProcessScene() {
   }, []);
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col items-center justify-center px-4 sm:px-6 md:px-8">
+    <div className="relative flex min-h-full w-full flex-col items-center justify-center px-4 sm:px-6 md:min-h-screen md:px-8">
       <Scene3DLazy variant="process" />
       <div className="relative z-10 max-w-3xl px-2 text-center">
         <h2
@@ -56,13 +56,18 @@ export function ProcessScene() {
           {STEPS.map((step, i) => (
             <div key={step} className="flex items-center">
               <motion.span
-                className="glass-panel rounded-lg px-3 py-2 text-xs font-semibold text-white sm:px-4 sm:py-2.5 sm:text-sm md:px-5 md:text-base"
-                whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(0,212,255,0.3)" }}
+                className="px-2 py-1 text-xs font-semibold tracking-wide text-white sm:px-3 sm:py-1.5 sm:text-sm md:text-base"
+                whileHover={{ scale: 1.05 }}
               >
                 {step}
               </motion.span>
               {i < STEPS.length - 1 && (
-                <span className="mx-1 text-[#00d4ff] sm:mx-2">→</span>
+                <span
+                  className="mx-1 select-none font-medium text-[#5ac8dc] sm:mx-2 md:text-lg"
+                  aria-hidden
+                >
+                  →
+                </span>
               )}
             </div>
           ))}

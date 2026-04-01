@@ -49,7 +49,7 @@ export function ServicesScene() {
   }, []);
 
   return (
-    <div className="relative flex min-h-dvh w-full flex-col items-center justify-center gap-4 overflow-y-auto px-4 py-6 sm:gap-6 sm:px-6 sm:py-10 md:px-8 md:py-12">
+    <div className="relative flex min-h-min w-full flex-col items-center justify-center gap-4 px-4 py-6 sm:gap-6 sm:px-6 sm:py-10 md:min-h-dvh md:overflow-y-auto md:px-8 md:py-12">
       <Scene3DLazy variant="services" />
       <h2
         ref={titleRef}
@@ -64,11 +64,11 @@ export function ServicesScene() {
         {SERVICES.map((service, i) => (
           <motion.div
             key={service.title}
-            className="glass-panel group cursor-pointer rounded-xl p-6 transition-all hover:border-[#00d4ff]/30 hover:shadow-[0_0_30px_rgba(0,212,255,0.1)]"
+            className="group cursor-pointer py-4 text-center sm:py-5 sm:text-left"
             whileHover={{ scale: 1.02, y: -2 }}
             whileTap={{ scale: 0.98 }}
           >
-            <h3 className="mb-2 text-lg font-semibold text-white group-hover:text-[#00d4ff]">
+            <h3 className="mb-2 text-lg font-semibold text-white transition-colors group-hover:text-[#00d4ff]">
               {service.title}
             </h3>
             <p className="text-sm text-white/70">{service.detail}</p>

@@ -42,11 +42,9 @@ export function ProgressIndicator({ currentIndex, onNavigate }: ProgressIndicato
 
   if (isMobile) {
     return (
-      <div
-        className="print:hidden fixed left-0 right-0 top-0 z-50 flex items-center gap-3 px-3 pb-2 pt-[calc(0.5rem+env(safe-area-inset-top,0px))]"
-      >
-        {/* Slim segmented bar at top — out of the way of brochure content */}
-        <div className="flex flex-1 gap-px overflow-hidden rounded-full bg-black/30 p-1 backdrop-blur-md">
+      <div className="print:hidden relative z-[60] flex w-full shrink-0 items-center gap-1.5 border-b border-white/5 bg-[#0a0e17] pb-1.5 pl-[max(0.375rem,env(safe-area-inset-left,0px))] pr-[max(0.375rem,env(safe-area-inset-right,0px))] pt-[calc(0.375rem+env(safe-area-inset-top,0px))] backdrop-blur-md sm:gap-3 sm:pb-2 sm:pl-[max(0.5rem,env(safe-area-inset-left,0px))] sm:pr-[max(0.5rem,env(safe-area-inset-right,0px))] sm:pt-[calc(0.5rem+env(safe-area-inset-top,0px))]">
+        {/* Segmented bar — solid bar background so it never visually merges with page content */}
+        <div className="flex min-h-5 min-w-0 flex-1 gap-px overflow-hidden rounded-full bg-black/40 p-1">
           {SCENES.map((_, i) => (
             <motion.button
               key={SCENES[i].id}
@@ -64,7 +62,7 @@ export function ProgressIndicator({ currentIndex, onNavigate }: ProgressIndicato
             </motion.button>
           ))}
         </div>
-        <span className="shrink-0 text-[11px] tabular-nums text-white/50">
+        <span className="shrink-0 pl-0.5 text-[10px] tabular-nums leading-none text-white/60 sm:text-xs">
           {currentIndex + 1}/{SCENES.length}
         </span>
       </div>

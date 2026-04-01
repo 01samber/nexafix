@@ -36,7 +36,7 @@ export function BackCoverScene() {
   }, []);
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col items-center justify-center px-4 sm:px-6 md:px-8">
+    <div className="relative flex min-h-full w-full flex-col items-center justify-center px-4 sm:px-6 md:min-h-screen md:px-8">
       <Scene3DLazy variant="back" />
       <div className="relative z-10 flex flex-col items-center text-center">
         <h2

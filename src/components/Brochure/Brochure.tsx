@@ -53,21 +53,23 @@ export function Brochure() {
   return (
     <div
       data-brochure-container
-      className="relative min-h-dvh w-full overflow-x-hidden touch-pan-y"
+      className="relative flex min-h-dvh w-full max-md:max-h-[100dvh] max-md:flex-col max-md:overflow-hidden touch-pan-y overflow-x-hidden md:block md:max-h-none"
     >
       <AmbientMotion />
 
-      {/* Scene stack */}
-      <div className="relative min-h-screen w-full">
-        {SCENE_COMPONENTS.map((SceneComponent, i) => (
-          <SceneWrapper key={i} isActive={i === currentIndex}>
-            <SceneComponent />
-          </SceneWrapper>
-        ))}
-      </div>
-
-      {/* Progress indicator */}
+      {/* Mobile: progress is in document flow so scenes scroll underneath nothing */}
       <ProgressIndicator currentIndex={currentIndex} onNavigate={handleNavigate} />
+
+      {/* Scene stack — mobile: this region is the only vertical scroll container */}
+      <div className="relative max-md:min-h-0 max-md:flex-1 max-md:overflow-x-hidden max-md:overflow-y-auto max-md:overscroll-y-contain max-md:pb-[calc(5.5rem+env(safe-area-inset-bottom,0px))] md:min-h-screen">
+        <div className="relative min-h-full w-full md:min-h-screen">
+          {SCENE_COMPONENTS.map((SceneComponent, i) => (
+            <SceneWrapper key={i} isActive={i === currentIndex}>
+              <SceneComponent />
+            </SceneWrapper>
+          ))}
+        </div>
+      </div>
 
       {/* Share - mobile only */}
       <div className="print:hidden">{isMobile && <BrochureActions />}</div>
