@@ -31,10 +31,9 @@ export const SCENES: SceneData[] = [
   },
   {
     id: "problem",
-    title: "The Problem",
-    headline: "Sound Familiar?",
-    content:
-      "Delays. Poor follow-ups. Unexpected breakdowns.\nFacility maintenance shouldn't slow your business down — but it often does.",
+    title: "Success Stories",
+    headline: "Nexa Fix Success Stories",
+    content: "Case studies and project photography from real facility work.",
     variant: "tension",
   },
   {
