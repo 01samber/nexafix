@@ -37,7 +37,7 @@ export function CoverScene() {
   }, []);
 
   return (
-    <div className="relative flex min-h-full w-full flex-col items-center justify-center bg-[#0a0e17] px-4 py-6 text-center sm:px-6 md:min-h-dvh md:px-8">
+    <div className="relative flex min-h-full w-full flex-col items-center justify-center bg-[#0a0e17] px-4 py-6 text-center max-md:min-h-0 max-md:flex-1 sm:px-6 md:min-h-dvh md:px-8">
       <Scene3DLazy variant="cover" />
 
       <motion.div

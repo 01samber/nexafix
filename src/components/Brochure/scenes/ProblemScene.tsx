@@ -57,7 +57,7 @@ export function ProblemScene() {
   }, [expandedId]);
 
   return (
-    <div className="relative flex min-h-min w-full flex-col px-2 pb-5 pt-1.5 sm:px-6 sm:pb-12 sm:pt-3 md:min-h-0 md:px-8 md:pb-0 md:pt-0">
+    <div className="relative flex w-full flex-col max-md:min-h-0 max-md:flex-1 md:min-h-0 px-2 pb-5 pt-1.5 sm:px-6 sm:pb-12 sm:pt-3 md:px-8 md:pb-0 md:pt-0">
       <Scene3DLazy variant="problem" />
       <div className="relative z-20 mx-auto w-full max-w-3xl">
         <h2

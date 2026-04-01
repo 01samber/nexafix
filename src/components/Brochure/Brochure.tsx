@@ -60,9 +60,9 @@ export function Brochure() {
       {/* Mobile: progress is in document flow so scenes scroll underneath nothing */}
       <ProgressIndicator currentIndex={currentIndex} onNavigate={handleNavigate} />
 
-      {/* Scene stack — mobile: this region is the only vertical scroll container */}
-      <div className="relative max-md:min-h-0 max-md:flex-1 max-md:overflow-x-hidden max-md:overflow-y-auto max-md:overscroll-y-contain max-md:pb-[calc(5.5rem+env(safe-area-inset-bottom,0px))] md:min-h-screen">
-        <div className="relative min-h-full w-full md:min-h-screen">
+      {/* Scene stack — mobile: flex column so short scenes still fill the visible scrollport (no blank band) */}
+      <div className="relative max-md:flex max-md:min-h-0 max-md:flex-1 max-md:flex-col max-md:overflow-x-hidden max-md:overflow-y-auto max-md:overscroll-y-contain max-md:pb-[calc(5.5rem+env(safe-area-inset-bottom,0px))] md:min-h-screen">
+        <div className="relative flex w-full max-md:min-h-full max-md:flex-1 max-md:flex-col max-md:min-h-0 md:min-h-screen">
           {SCENE_COMPONENTS.map((SceneComponent, i) => (
             <SceneWrapper key={i} isActive={i === currentIndex}>
               <SceneComponent />

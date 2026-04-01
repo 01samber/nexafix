@@ -49,7 +49,7 @@ export function ServicesScene() {
   }, []);
 
   return (
-    <div className="relative flex min-h-min w-full flex-col items-center justify-center gap-4 px-4 py-6 sm:gap-6 sm:px-6 sm:py-10 md:min-h-dvh md:overflow-y-auto md:px-8 md:py-12">
+    <div className="relative flex min-h-min w-full flex-col items-center justify-center gap-4 px-4 py-6 max-md:min-h-0 max-md:flex-1 sm:gap-6 sm:px-6 sm:py-10 md:min-h-dvh md:overflow-y-auto md:px-8 md:py-12">
       <Scene3DLazy variant="services" />
       <h2
         ref={titleRef}
