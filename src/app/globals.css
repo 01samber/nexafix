@@ -103,6 +103,173 @@ body {
   }
 }
 
+/*
+ * Mobile ambient (CSS-only): same visual energy as desktop Motion layer but runs on
+ * the compositor—better on iOS Safari / Android Chrome than many JS-driven animations.
+ */
+.nexafix-amb-m-grid {
+  opacity: 0.055;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.12) 1px, transparent 1px);
+  background-size: 44px 44px;
+  animation: nexafix-amb-m-grid-move 12s linear infinite;
+}
+
+.nexafix-amb-m-sheen1 {
+  top: -35%;
+  left: -30%;
+  right: -30%;
+  height: min(75dvh, 640px);
+  border-radius: 45%;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 212, 255, 0),
+    rgba(0, 212, 255, 0.18),
+    rgba(0, 168, 212, 0)
+  );
+  filter: blur(56px);
+  -webkit-filter: blur(56px);
+  animation: nexafix-amb-m-sheen1-move 20s ease-in-out infinite;
+  will-change: transform;
+}
+
+.nexafix-amb-m-sheen2 {
+  top: 95%;
+  left: -15%;
+  right: -15%;
+  height: min(60dvh, 520px);
+  border-radius: 50%;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 102, 170, 0),
+    rgba(0, 102, 170, 0.22),
+    transparent
+  );
+  filter: blur(52px);
+  -webkit-filter: blur(52px);
+  animation: nexafix-amb-m-sheen2-move 26s ease-in-out infinite;
+  will-change: transform;
+}
+
+.nexafix-amb-m-orb1 {
+  left: -22%;
+  top: -18%;
+  height: min(98vmin, 940px);
+  width: min(98vmin, 940px);
+  border-radius: 9999px;
+  background: rgba(0, 212, 255, 0.1);
+  filter: blur(72px);
+  -webkit-filter: blur(72px);
+  animation: nexafix-amb-m-orb1-move 9s ease-in-out infinite;
+  will-change: transform;
+}
+
+.nexafix-amb-m-orb2 {
+  right: -18%;
+  bottom: -22%;
+  height: min(88vmin, 860px);
+  width: min(88vmin, 860px);
+  border-radius: 9999px;
+  background: rgba(0, 102, 170, 0.15);
+  filter: blur(64px);
+  -webkit-filter: blur(64px);
+  animation: nexafix-amb-m-orb2-move 11s ease-in-out infinite;
+  will-change: transform;
+}
+
+.nexafix-amb-m-line {
+  animation: nexafix-amb-m-line-pulse 5s ease-in-out infinite;
+}
+
+.nexafix-amb-m-line-v {
+  animation: nexafix-amb-m-line-v-pulse 7s ease-in-out infinite;
+}
+
+.nexafix-amb-m-line-b {
+  animation: nexafix-amb-m-line-b-pulse 6.5s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+@keyframes nexafix-amb-m-grid-move {
+  from {
+    background-position: 0 0;
+  }
+  to {
+    background-position: 0 44px;
+  }
+}
+
+@keyframes nexafix-amb-m-sheen1-move {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, 90vh, 0);
+  }
+}
+
+@keyframes nexafix-amb-m-sheen2-move {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -95vh, 0);
+  }
+}
+
+@keyframes nexafix-amb-m-orb1-move {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(18px, 72px, 0) scale(1.07);
+  }
+}
+
+@keyframes nexafix-amb-m-orb2-move {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(-22px, -68px, 0);
+  }
+}
+
+@keyframes nexafix-amb-m-line-pulse {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.72;
+  }
+}
+
+@keyframes nexafix-amb-m-line-v-pulse {
+  0%,
+  100% {
+    opacity: 0.22;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+@keyframes nexafix-amb-m-line-b-pulse {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
 /* Safe area utilities for notched phones - use with fixed elements */
 .safe-area-left { padding-left: env(safe-area-inset-left, 0); }
 .safe-area-right { padding-right: env(safe-area-inset-right, 0); }

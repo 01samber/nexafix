@@ -44,6 +44,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${syne.variable} ${dmSans.variable} h-full min-h-dvh bg-[#0a0e17] antialiased`}
     >
       <head>

@@ -1,19 +1,26 @@
 "use client";
 
-import { useCallback } from "react";
+import dynamic from "next/dynamic";
+import { useCallback, type ComponentType } from "react";
 import { useBrochureNavigation } from "@/hooks/useBrochureNavigation";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { playTapSound } from "@/utils/playTapSound";
 import { SceneWrapper } from "./SceneWrapper";
-import { CoverScene } from "./scenes/CoverScene";
-import { ProblemScene } from "./scenes/ProblemScene";
-import { SolutionScene } from "./scenes/SolutionScene";
-import { ServicesScene } from "./scenes/ServicesScene";
-import { WhyNexafixScene } from "./scenes/WhyNexafixScene";
-import { ProcessScene } from "./scenes/ProcessScene";
-import { ResultsScene } from "./scenes/ResultsScene";
-import { CTAScene } from "./scenes/CTAScene";
-import { BackCoverScene } from "./scenes/BackCoverScene";
+
+const dyn = (importer: () => Promise<{ default: ComponentType }>) =>
+  dynamic(importer, { ssr: false });
+
+const CoverScene = dyn(() => import("./scenes/CoverScene").then((m) => ({ default: m.CoverScene })));
+const ProblemScene = dyn(() => import("./scenes/ProblemScene").then((m) => ({ default: m.ProblemScene })));
+const SolutionScene = dyn(() => import("./scenes/SolutionScene").then((m) => ({ default: m.SolutionScene })));
+const ServicesScene = dyn(() => import("./scenes/ServicesScene").then((m) => ({ default: m.ServicesScene })));
+const WhyNexafixScene = dyn(() => import("./scenes/WhyNexafixScene").then((m) => ({ default: m.WhyNexafixScene })));
+const ProcessScene = dyn(() => import("./scenes/ProcessScene").then((m) => ({ default: m.ProcessScene })));
+const ResultsScene = dyn(() => import("./scenes/ResultsScene").then((m) => ({ default: m.ResultsScene })));
+const CTAScene = dyn(() => import("./scenes/CTAScene").then((m) => ({ default: m.CTAScene })));
+const BackCoverScene = dyn(() =>
+  import("./scenes/BackCoverScene").then((m) => ({ default: m.BackCoverScene }))
+);
 import { ProgressIndicator } from "@/components/ui/ProgressIndicator";
 import { AmbientMotion } from "@/components/ui/AmbientMotion";
 import { BrochureActions } from "@/components/ui/BrochureActions";
