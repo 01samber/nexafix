@@ -2,19 +2,17 @@
 
 import { motion } from "motion/react";
 
-/** Full-viewport ambient: pinned top + width, min-height covers largest viewport + safe-area so nothing clips at the footer. */
-const AMBIENT_MIN_HEIGHT =
-  "calc(max(100lvh, 100dvh, 100svh) + env(safe-area-inset-bottom, 0px))";
+/** Pinned ambient layer; height follows --app-vh from ViewportHeightFix for stable iOS/Android visible viewport. */
+const AMBIENT_HEIGHT = "var(--app-vh, 100dvh)";
 
 export function AmbientMotion() {
   return (
     <div
       className="pointer-events-none fixed top-0 left-0 right-0 z-0 w-full overflow-x-hidden overflow-y-hidden bg-[#0a0e17]"
-      style={{ minHeight: AMBIENT_MIN_HEIGHT }}
+      style={{ height: AMBIENT_HEIGHT, minHeight: AMBIENT_HEIGHT }}
       aria-hidden
     >
-      {/* Stretch all effects to at least the same box (fixes %/full-height children on mobile) */}
-      <div className="relative min-h-full w-full" style={{ minHeight: AMBIENT_MIN_HEIGHT }}>
+      <div className="relative h-full min-h-full w-full">
         {/* Primary vertical sheen — drifts downward through the whole viewport */}
         <motion.div
           className="absolute left-[-30%] right-[-30%] h-[min(70dvh,520px)] max-md:h-[min(75dvh,640px)] rounded-[45%] bg-gradient-to-b from-[#00d4ff]/0 via-[#00d4ff]/18 to-[#00a8d4]/0 blur-[72px] sm:blur-[100px]"

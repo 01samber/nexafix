@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
 :root {
+  /* Real pixel height from ViewportHeightFix (iOS/Android); fallback for first paint */
+  --app-vh: 100dvh;
+
   /* Dark Luxury Theme */
   --bg-deep: #0a0e17;
   --bg-navy: #0d1321;
@@ -49,14 +52,9 @@ html {
   scroll-behavior: auto;
   -webkit-tap-highlight-color: transparent;
   background-color: var(--bg-deep);
-  /* Fill largest viewport so theme/bg never ends above browser or home-indicator edge */
   height: 100%;
-  min-height: 100vh;
+  min-height: 100%;
   min-height: 100dvh;
-  min-height: 100lvh;
-  min-height: 100svh;
-  min-height: -webkit-fill-available;
-  min-height: calc(max(100lvh, 100dvh, 100svh) + env(safe-area-inset-bottom, 0px));
 }
 
 body {
@@ -67,12 +65,42 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  min-height: 100vh;
+  min-height: 100%;
   min-height: 100dvh;
-  min-height: 100lvh;
-  min-height: 100svh;
-  min-height: -webkit-fill-available;
-  min-height: calc(max(100lvh, 100dvh, 100svh) + env(safe-area-inset-bottom, 0px));
+  /* Reduce iOS rubber-band flashing a different color at extremes */
+  overscroll-behavior-y: none;
+  overscroll-behavior-x: none;
+}
+
+/* Mobile brochure shell: use --app-vh so height matches visible area (avoids iOS cutting chrome/safe zones) */
+@media (max-width: 767.98px) {
+  [data-brochure-container] {
+    height: var(--app-vh, 100dvh);
+    min-height: var(--app-vh, 100dvh);
+    max-height: none;
+  }
+}
+
+/* Dynamic import loading shell: same height as brochure + gentle fade */
+@keyframes nexafix-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.brochure-loading-shell {
+  min-height: var(--app-vh, 100dvh);
+  animation: nexafix-fade-in 0.4s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brochure-loading-shell {
+    animation: none;
+    opacity: 1;
+  }
 }
 
 /* Safe area utilities for notched phones - use with fixed elements */

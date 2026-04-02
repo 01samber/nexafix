@@ -7,4 +7,6 @@ export const viewport: Viewport = {
   userScalable: false,
   viewportFit: "cover",
   themeColor: "#0a0e17",
+  // Android Chrome: resize layout when browser UI / keyboard changes
+  interactiveWidget: "resizes-content",
 };

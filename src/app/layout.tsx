@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Syne, DM_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/react";
+import Script from "next/script";
+import { ViewportHeightFix } from "@/components/layout/ViewportHeightFix";
 import "./globals.css";
 
 export { viewport } from "./viewport";
@@ -42,12 +44,16 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${syne.variable} ${dmSans.variable} h-full min-h-dvh min-h-[calc(max(100lvh,100dvh,100svh)+env(safe-area-inset-bottom,0px))] bg-[#0a0e17] antialiased`}
+      className={`${syne.variable} ${dmSans.variable} h-full min-h-dvh bg-[#0a0e17] antialiased`}
     >
       <head>
         <link rel="manifest" href="/manifest.json" />
+        <Script id="nexafix-app-vh" strategy="beforeInteractive">
+          {`(function(){try{var v=window.visualViewport,h=v&&v.height?v.height:window.innerHeight;if(h>0)document.documentElement.style.setProperty("--app-vh",h+"px");}catch(e){}})();`}
+        </Script>
       </head>
-      <body className="font-body min-h-dvh min-h-[calc(max(100lvh,100dvh,100svh)+env(safe-area-inset-bottom,0px))] w-full overflow-x-hidden bg-[#0a0e17] text-white">
+      <body className="font-body min-h-dvh w-full overflow-x-hidden bg-[#0a0e17] text-white">
+        <ViewportHeightFix />
         {children}
         <Analytics />
       </body>
