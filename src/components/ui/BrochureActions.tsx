@@ -16,7 +16,7 @@ export function BrochureActions() {
   return (
     <button
       onClick={handleShare}
-      className="fixed bottom-20 right-4 z-40 flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-black/40 backdrop-blur-sm text-white transition hover:border-[#00d4ff]/50 hover:bg-[#00d4ff]/10"
+      className="fixed right-4 z-40 flex h-10 w-10 items-center justify-center rounded-full border border-white/20 bg-black/40 backdrop-blur-sm text-white transition hover:border-[#00d4ff]/50 hover:bg-[#00d4ff]/10 max-md:bottom-[calc(5rem+env(safe-area-inset-bottom,0px))] bottom-20"
       aria-label="Share"
     >
       <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

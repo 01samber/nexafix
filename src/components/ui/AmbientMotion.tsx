@@ -6,7 +6,7 @@ import { motion } from "motion/react";
 export function AmbientMotion() {
   return (
     <div
-      className="pointer-events-none fixed inset-0 z-0 w-full overflow-hidden bg-[#0a0e17] min-h-dvh min-h-[100lvh] max-md:min-h-[calc(100lvh+env(safe-area-inset-bottom,0px))] md:min-h-dvh"
+      className="pointer-events-none fixed top-0 left-0 right-0 z-0 w-full overflow-x-hidden overflow-y-hidden bg-[#0a0e17] min-h-[calc(100lvh+env(safe-area-inset-bottom,0px))] min-h-[calc(100dvh+env(safe-area-inset-bottom,0px))] min-h-[calc(max(100lvh,100dvh)+env(safe-area-inset-bottom,0px))]"
       aria-hidden
     >
       {/* Primary vertical sheen — drifts downward through the whole viewport */}

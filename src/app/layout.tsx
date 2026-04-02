@@ -42,12 +42,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${syne.variable} ${dmSans.variable} h-full min-h-dvh min-h-[100lvh] antialiased`}
+      className={`${syne.variable} ${dmSans.variable} h-full min-h-dvh min-h-[calc(max(100lvh,100dvh)+env(safe-area-inset-bottom,0px))] antialiased`}
     >
       <head>
         <link rel="manifest" href="/manifest.json" />
       </head>
-      <body className="font-body min-h-dvh min-h-[100lvh] w-full overflow-x-hidden bg-[#0a0e17] text-white">
+      <body className="font-body min-h-dvh min-h-[calc(max(100lvh,100dvh)+env(safe-area-inset-bottom,0px))] w-full overflow-x-hidden bg-[#0a0e17] text-white">
         {children}
         <Analytics />
       </body>

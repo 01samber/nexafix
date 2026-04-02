@@ -67,6 +67,9 @@ body {
   min-height: 100dvh;
   min-height: 100lvh;
   min-height: -webkit-fill-available;
+  /* Footer / home-indicator: ensure page canvas extends into safe area on all pages */
+  min-height: calc(100lvh + env(safe-area-inset-bottom, 0px));
+  min-height: calc(100dvh + env(safe-area-inset-bottom, 0px));
 }
 
 /* Safe area utilities for notched phones - use with fixed elements */
