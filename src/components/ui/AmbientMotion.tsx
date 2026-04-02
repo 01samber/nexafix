@@ -5,7 +5,10 @@ import { motion } from "motion/react";
 /** Full-viewport ambient layer with top→bottom motion, tuned for tall phone screens. */
 export function AmbientMotion() {
   return (
-    <div className="pointer-events-none fixed inset-0 z-0 w-full overflow-hidden min-h-dvh min-h-[100svh] supports-[height:100dvh]:min-h-[100dvh]">
+    <div
+      className="pointer-events-none fixed inset-0 z-0 w-full overflow-hidden bg-[#0a0e17] min-h-dvh min-h-[100lvh] max-md:min-h-[calc(100lvh+env(safe-area-inset-bottom,0px))] md:min-h-dvh"
+      aria-hidden
+    >
       {/* Primary vertical sheen — drifts downward through the whole viewport */}
       <motion.div
         className="absolute left-[-30%] right-[-30%] h-[min(70dvh,520px)] max-md:h-[min(75dvh,640px)] rounded-[45%] bg-gradient-to-b from-[#00d4ff]/0 via-[#00d4ff]/18 to-[#00a8d4]/0 blur-[72px] sm:blur-[100px]"

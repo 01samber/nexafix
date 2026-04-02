@@ -48,10 +48,12 @@
 html {
   scroll-behavior: auto;
   -webkit-tap-highlight-color: transparent;
-  /* Mobile: stable full-screen height (avoid iOS 100vh / chrome UI clipping) */
+  /* Fill largest viewport so theme/bg never ends above browser or home-indicator edge */
   height: 100%;
   min-height: 100vh;
   min-height: 100dvh;
+  min-height: 100lvh;
+  min-height: -webkit-fill-available;
 }
 
 body {
@@ -63,6 +65,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   min-height: 100dvh;
+  min-height: 100lvh;
   min-height: -webkit-fill-available;
 }
 
