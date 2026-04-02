@@ -48,16 +48,20 @@
 html {
   scroll-behavior: auto;
   -webkit-tap-highlight-color: transparent;
+  background-color: var(--bg-deep);
   /* Fill largest viewport so theme/bg never ends above browser or home-indicator edge */
   height: 100%;
   min-height: 100vh;
   min-height: 100dvh;
   min-height: 100lvh;
+  min-height: 100svh;
   min-height: -webkit-fill-available;
+  min-height: calc(max(100lvh, 100dvh, 100svh) + env(safe-area-inset-bottom, 0px));
 }
 
 body {
   background: var(--bg-deep);
+  background-color: var(--bg-deep);
   color: var(--text-primary);
   font-family: var(--font-body);
   overflow-x: hidden;
@@ -66,10 +70,9 @@ body {
   min-height: 100vh;
   min-height: 100dvh;
   min-height: 100lvh;
+  min-height: 100svh;
   min-height: -webkit-fill-available;
-  /* Footer / home-indicator: ensure page canvas extends into safe area on all pages */
-  min-height: calc(100lvh + env(safe-area-inset-bottom, 0px));
-  min-height: calc(100dvh + env(safe-area-inset-bottom, 0px));
+  min-height: calc(max(100lvh, 100dvh, 100svh) + env(safe-area-inset-bottom, 0px));
 }
 
 /* Safe area utilities for notched phones - use with fixed elements */

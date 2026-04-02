@@ -53,7 +53,7 @@ export function Brochure() {
   return (
     <div
       data-brochure-container
-      className="relative flex w-full max-w-[100%] touch-pan-y overflow-x-clip min-h-dvh min-h-[calc(100lvh+env(safe-area-inset-bottom,0px))] min-h-[calc(100dvh+env(safe-area-inset-bottom,0px))] min-h-[calc(max(100lvh,100dvh)+env(safe-area-inset-bottom,0px))] max-md:flex max-md:h-[calc(max(100lvh,100dvh)+env(safe-area-inset-bottom,0px))] max-md:min-h-[calc(max(100lvh,100dvh)+env(safe-area-inset-bottom,0px))] max-md:max-h-[calc(max(100lvh,100dvh)+env(safe-area-inset-bottom,0px))] max-md:flex-col max-md:overflow-hidden md:min-h-[calc(max(100lvh,100dvh)+env(safe-area-inset-bottom,0px))] md:block md:h-auto md:max-h-none"
+      className="relative flex w-full max-w-[100%] touch-pan-y overflow-x-clip bg-[#0a0e17] min-h-dvh min-h-[calc(max(100lvh,100dvh,100svh)+env(safe-area-inset-bottom,0px))] max-md:flex max-md:h-[calc(max(100lvh,100dvh,100svh)+env(safe-area-inset-bottom,0px))] max-md:min-h-[calc(max(100lvh,100dvh,100svh)+env(safe-area-inset-bottom,0px))] max-md:max-h-[calc(max(100lvh,100dvh,100svh)+env(safe-area-inset-bottom,0px))] max-md:flex-col max-md:overflow-hidden md:min-h-[calc(max(100lvh,100dvh,100svh)+env(safe-area-inset-bottom,0px))] md:block md:h-auto md:max-h-none"
     >
       <AmbientMotion />
 
@@ -61,8 +61,8 @@ export function Brochure() {
       <ProgressIndicator currentIndex={currentIndex} onNavigate={handleNavigate} />
 
       {/* Scene stack — mobile: flex column so short scenes still fill the visible scrollport (no blank band) */}
-      <div className="relative z-[1] max-md:flex max-md:min-h-0 max-md:flex-1 max-md:flex-col max-md:overflow-x-hidden max-md:overflow-y-auto max-md:overscroll-y-contain max-md:pb-[calc(5.5rem+env(safe-area-inset-bottom,0px))] md:min-h-[calc(max(100lvh,100dvh)+env(safe-area-inset-bottom,0px))]">
-        <div className="relative flex w-full max-md:min-h-full max-md:flex-1 max-md:flex-col max-md:min-h-0 md:min-h-[calc(max(100lvh,100dvh)+env(safe-area-inset-bottom,0px))]">
+      <div className="relative z-[1] max-md:flex max-md:min-h-0 max-md:flex-1 max-md:flex-col max-md:overflow-x-hidden max-md:overflow-y-auto max-md:overscroll-y-contain max-md:pb-[calc(5.5rem+env(safe-area-inset-bottom,0px))] md:min-h-[calc(max(100lvh,100dvh,100svh)+env(safe-area-inset-bottom,0px))]">
+        <div className="relative flex w-full max-md:min-h-full max-md:flex-1 max-md:flex-col max-md:min-h-0 md:min-h-[calc(max(100lvh,100dvh,100svh)+env(safe-area-inset-bottom,0px))]">
           {SCENE_COMPONENTS.map((SceneComponent, i) => (
             <SceneWrapper key={i} isActive={i === currentIndex}>
               <SceneComponent />
