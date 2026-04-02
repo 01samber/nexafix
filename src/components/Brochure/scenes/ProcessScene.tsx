@@ -45,7 +45,7 @@ export function ProcessScene() {
       <div className="relative z-10 max-w-3xl px-2 text-center">
         <h2
           ref={titleRef}
-          className="font-display mb-12 text-3xl font-bold text-white sm:text-4xl"
+          className="font-display mb-8 text-3xl font-bold text-white sm:mb-12 sm:text-4xl"
         >
           How It Works
         </h2>
@@ -63,7 +63,7 @@ export function ProcessScene() {
               </motion.span>
               {i < STEPS.length - 1 && (
                 <span
-                  className="mx-1 select-none font-medium text-[#5ac8dc] sm:mx-2 md:text-lg"
+                  className="mx-1 select-none text-base font-medium text-[#5ac8dc] sm:mx-2 md:text-lg"
                   aria-hidden
                 >
                   →
@@ -74,7 +74,7 @@ export function ProcessScene() {
         </div>
         <p
           ref={taglineRef}
-          className="text-base text-white/80 sm:text-lg md:text-xl"
+          className="text-lg text-white/80 sm:text-lg md:text-xl"
         >
           We handle everything — so you don&apos;t have to.
         </p>

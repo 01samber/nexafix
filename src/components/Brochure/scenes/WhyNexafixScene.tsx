@@ -43,7 +43,7 @@ export function WhyNexafixScene() {
       <div className="relative z-10 max-w-2xl px-2">
         <h2
           ref={titleRef}
-          className="font-display mb-8 text-2xl font-bold text-white sm:mb-10 sm:text-3xl md:mb-12 md:text-4xl"
+          className="font-display mb-8 text-3xl font-bold text-white sm:mb-10 sm:text-3xl md:mb-12 md:text-4xl"
         >
           Why Nexafix?
         </h2>
@@ -55,7 +55,7 @@ export function WhyNexafixScene() {
               whileHover={{ x: 8 }}
             >
               <span className="h-1 w-8 shrink-0 rounded-full bg-[#00d4ff]" />
-              <span className="text-base text-white/90 sm:text-lg md:text-xl">{point}</span>
+              <span className="text-lg leading-snug text-white/90 sm:text-lg md:text-xl">{point}</span>
             </motion.div>
           ))}
         </div>

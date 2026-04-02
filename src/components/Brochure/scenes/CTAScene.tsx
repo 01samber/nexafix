@@ -47,11 +47,11 @@ export function CTAScene() {
       <div className="relative z-10 flex max-w-2xl flex-col items-center text-center">
         <h2
           ref={titleRef}
-          className="font-display mb-6 text-3xl font-bold text-white sm:text-4xl md:text-5xl"
+          className="font-display mb-6 text-4xl font-bold text-white sm:text-4xl md:text-5xl"
         >
           Let&apos;s Fix Your Facility
         </h2>
-        <p ref={textRef} className="mb-8 text-base text-white/90 sm:mb-10 sm:text-lg md:mb-12 md:text-xl">
+        <p ref={textRef} className="mb-8 text-lg leading-relaxed text-white/90 sm:mb-10 sm:text-lg md:mb-12 md:text-xl">
           Scan to get a free facility assessment.
           <br />
           {CONFIG.boothNumber !== "TBD" && (
@@ -80,7 +80,7 @@ export function CTAScene() {
               includeMargin={false}
               className="rounded"
             />
-            <span className="mt-2 text-xs font-medium text-[#0a0e17]">Free Facility Assessment</span>
+            <span className="mt-2 text-sm font-medium text-[#0a0e17]">Free Facility Assessment</span>
           </div>
         </motion.div>
         <a href={`mailto:${CONFIG.email}?subject=Nexafix%20-%20ConnexFM%20${CONFIG.eventYear}%20Inquiry`}>

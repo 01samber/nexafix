@@ -50,7 +50,7 @@ export function ResultsScene() {
       <div className="relative z-10 max-w-3xl px-2 text-center">
         <h2
           ref={titleRef}
-          className="font-display mb-8 text-2xl font-bold text-white sm:mb-10 sm:text-3xl md:mb-12 md:text-4xl"
+          className="font-display mb-8 text-3xl font-bold text-white sm:mb-10 sm:text-3xl md:mb-12 md:text-4xl"
         >
           Real Impact
         </h2>
@@ -65,14 +65,14 @@ export function ResultsScene() {
         </div>
         <p
           ref={taglineRef}
-          className="text-base font-medium text-[#00d4ff] sm:text-lg md:text-xl"
+          className="text-lg font-medium text-[#00d4ff] sm:text-lg md:text-xl"
         >
           Built for businesses that can&apos;t afford interruptions.
         </p>
-        <p className="mt-4 text-sm text-white/50">
+        <p className="mt-4 text-base text-white/50">
           {CONFIG.facilitiesServed}+ facilities served
         </p>
-        <blockquote className="mt-6 max-w-md text-sm italic text-white/60">
+        <blockquote className="mt-6 max-w-md text-base italic leading-relaxed text-white/60">
           &ldquo;{CONFIG.testimonial}&rdquo;
           <span className="block mt-1 not-italic text-white/40">{CONFIG.testimonialAttribution}</span>
         </blockquote>

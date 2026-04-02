@@ -53,7 +53,7 @@ export function ServicesScene() {
       <Scene3DLazy variant="services" />
       <h2
         ref={titleRef}
-        className="relative z-10 font-display mb-4 shrink-0 text-center text-xl font-bold text-white sm:mb-6 sm:text-2xl md:mb-8 md:text-3xl lg:text-4xl"
+        className="relative z-10 font-display mb-4 shrink-0 text-center text-2xl font-bold text-white sm:mb-6 sm:text-2xl md:mb-8 md:text-3xl lg:text-4xl"
       >
         What We Do
       </h2>
@@ -68,10 +68,10 @@ export function ServicesScene() {
             whileHover={{ scale: 1.02, y: -2 }}
             whileTap={{ scale: 0.98 }}
           >
-            <h3 className="mb-2 text-lg font-semibold text-white transition-colors group-hover:text-[#00d4ff]">
+            <h3 className="mb-2 text-xl font-semibold text-white transition-colors group-hover:text-[#00d4ff] sm:text-2xl">
               {service.title}
             </h3>
-            <p className="text-sm text-white/70">{service.detail}</p>
+            <p className="text-base leading-snug text-white/70 md:text-lg">{service.detail}</p>
           </motion.div>
         ))}
       </div>

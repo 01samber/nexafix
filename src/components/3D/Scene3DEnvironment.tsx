@@ -393,6 +393,8 @@ export function Scene3DEnvironment({ variant }: Scene3DEnvironmentProps) {
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
   const [mobile, setMobile] = useState(isMobile);
   const isCover = variant === "cover";
+  /** Success Stories slide: let global AmbientMotion show through (same as non-3D pages). */
+  const useAmbientBackdrop = variant === "problem";
 
   useEffect(() => {
     const check = () => setMobile(window.innerWidth < 768);
@@ -402,19 +404,37 @@ export function Scene3DEnvironment({ variant }: Scene3DEnvironmentProps) {
   }, []);
 
   const bgHex = isCover ? SITE_BG : "#000000";
+  const fogColor = useAmbientBackdrop ? SITE_BG : bgHex;
+  const fogNear = useAmbientBackdrop ? (mobile ? 8 : 6) : mobile ? 6 : 5;
+  const fogFar = useAmbientBackdrop ? 38 : 30;
 
   return (
-    <div className={`absolute inset-0 -z-10 ${isCover ? "bg-[#0a0e17]" : "bg-[#000000]"}`}>
+    <div
+      className={`absolute inset-0 -z-10 ${
+        isCover ? "bg-[#0a0e17]" : useAmbientBackdrop ? "bg-transparent" : "bg-[#000000]"
+      }`}
+    >
       <Canvas
         camera={{
           position: [5, 0, 0],
           fov: mobile ? 72 : 55,
         }}
         dpr={mobile ? [1, 1.5] : [1, 2]}
-        gl={{ antialias: true, alpha: false, powerPreference: "high-performance" }}
+        gl={{
+          antialias: true,
+          alpha: useAmbientBackdrop,
+          premultipliedAlpha: false,
+          powerPreference: "high-performance",
+        }}
+        onCreated={({ gl, scene }) => {
+          if (useAmbientBackdrop) {
+            scene.background = null;
+            gl.setClearColor(0x000000, 0);
+          }
+        }}
       >
-        <color attach="background" args={[bgHex]} />
-        <fog attach="fog" args={[bgHex, mobile ? 6 : 5, 30]} />
+        {!useAmbientBackdrop && <color attach="background" args={[bgHex]} />}
+        <fog attach="fog" args={[fogColor, fogNear, fogFar]} />
         <ambientLight intensity={0.1} />
         <pointLight position={[0, 0, 0]} intensity={2} color="#00d4ff" distance={15} decay={2} />
         <pointLight position={[3, 2, 2]} intensity={0.3} color="#0099cc" />

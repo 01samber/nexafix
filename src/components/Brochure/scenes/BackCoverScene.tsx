@@ -41,7 +41,7 @@ export function BackCoverScene() {
       <div className="relative z-10 flex flex-col items-center text-center">
         <h2
           ref={taglineRef}
-          className="font-display mb-10 text-2xl font-bold text-white sm:mb-12 sm:text-3xl md:mb-16 md:text-4xl lg:text-5xl"
+          className="font-display mb-10 text-3xl font-bold text-white sm:mb-12 sm:text-3xl md:mb-16 md:text-4xl lg:text-5xl"
         >
           Maintenance You Can
           <br />
@@ -56,7 +56,7 @@ export function BackCoverScene() {
           ))}
         </div>
         <p
-          className="font-display mt-8 text-lg font-bold tracking-[0.15em] text-[#00d4ff] sm:mt-10 sm:text-xl sm:tracking-[0.2em] md:mt-12"
+          className="font-display mt-8 text-xl font-bold tracking-[0.15em] text-[#00d4ff] sm:mt-10 sm:text-xl sm:tracking-[0.2em] md:mt-12"
         >
           NEXAFIX
         </p>

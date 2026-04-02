@@ -37,7 +37,7 @@ export function CoverScene() {
   }, []);
 
   return (
-    <div className="relative flex min-h-full w-full flex-col items-center justify-center bg-[#0a0e17] px-4 py-6 text-center max-md:min-h-0 max-md:flex-1 sm:px-6 md:min-h-dvh md:px-8">
+    <div className="relative flex min-h-full w-full flex-col items-center justify-center bg-transparent px-4 py-6 text-center max-md:min-h-0 max-md:flex-1 sm:px-6 md:min-h-dvh md:px-8">
       <Scene3DLazy variant="cover" />
 
       <motion.div
@@ -68,7 +68,7 @@ export function CoverScene() {
       <div className="relative z-10 flex flex-col items-center gap-4 pt-6 sm:gap-6 md:pt-10">
         <h1
           ref={headlineRef}
-          className="font-display text-3xl font-extrabold leading-tight tracking-tight text-white drop-shadow-[0_0_40px_rgba(0,212,255,0.3)] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl"
+          className="font-display text-4xl font-extrabold leading-tight tracking-tight text-white drop-shadow-[0_0_40px_rgba(0,212,255,0.3)] sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl"
         >
           Fix It Before
           <br />
@@ -78,13 +78,13 @@ export function CoverScene() {
         </h1>
         <p
           ref={subRef}
-          className="font-body max-w-2xl text-base text-white/90 sm:text-lg md:text-xl lg:text-2xl"
+          className="font-body max-w-2xl text-lg leading-snug text-white/90 sm:text-lg md:text-xl lg:text-2xl"
         >
           Smart Facility Maintenance. Fast Response. Reliable Execution.
         </p>
         <p
           ref={taglineRef}
-          className="font-display text-sm font-semibold tracking-[0.35em] text-[#00d4ff]/80 sm:text-base sm:tracking-[0.4em]"
+          className="font-display text-base font-semibold tracking-[0.32em] text-[#00d4ff]/80 sm:text-base sm:tracking-[0.4em]"
         >
           NEXA LEVEL SERVICE
         </p>

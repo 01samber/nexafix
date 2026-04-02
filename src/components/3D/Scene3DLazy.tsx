@@ -6,7 +6,7 @@ import type { SceneVariant } from "./Scene3DEnvironment";
 
 const Scene3DEnvironment = dynamic(
   () => import("./Scene3DEnvironment").then((m) => ({ default: m.Scene3DEnvironment })),
-  { ssr: false, loading: () => <div className="absolute inset-0 -z-10 bg-[#0a0e17]" /> }
+  { ssr: false, loading: () => <div className="absolute inset-0 -z-10 bg-transparent" /> }
 );
 
 const GradientFallback = () => (
