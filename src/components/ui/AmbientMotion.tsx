@@ -2,60 +2,100 @@
 
 import { motion } from "motion/react";
 
+/** Full-viewport ambient layer with top→bottom motion, tuned for tall phone screens. */
 export function AmbientMotion() {
   return (
-    <div className="pointer-events-none fixed inset-0 z-0 min-h-dvh w-full overflow-hidden">
-      {/* Gradient orbs — large on all breakpoints so motion reads across the full viewport */}
+    <div className="pointer-events-none fixed inset-0 z-0 w-full overflow-hidden min-h-dvh min-h-[100svh] supports-[height:100dvh]:min-h-[100dvh]">
+      {/* Primary vertical sheen — drifts downward through the whole viewport */}
       <motion.div
-        className="absolute -left-[20%] -top-[15%] h-[min(95vmin,900px)] w-[min(95vmin,900px)] rounded-full bg-[#00d4ff]/12 blur-[100px] sm:-left-1/4 sm:-top-1/4 sm:h-[80vh] sm:w-[80vw] sm:blur-[120px]"
+        className="absolute left-[-30%] right-[-30%] h-[min(70dvh,520px)] max-md:h-[min(75dvh,640px)] rounded-[45%] bg-gradient-to-b from-[#00d4ff]/0 via-[#00d4ff]/18 to-[#00a8d4]/0 blur-[72px] sm:blur-[100px]"
+        initial={{ top: "-35%" }}
+        animate={{ top: ["-35%", "92%", "-35%"] }}
+        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+        aria-hidden
+      />
+
+      {/* Secondary slow rise — counter motion so the field never feels static */}
+      <motion.div
+        className="absolute left-[-15%] right-[-15%] h-[min(55dvh,420px)] max-md:h-[min(60dvh,520px)] rounded-[50%] bg-gradient-to-b from-[#0066aa]/0 via-[#0066aa]/22 to-transparent blur-[64px] sm:blur-[88px]"
+        initial={{ top: "95%" }}
+        animate={{ top: ["95%", "-40%", "95%"] }}
+        transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
+        aria-hidden
+      />
+
+      {/* Corner orbs — extra vertical travel on phones */}
+      <motion.div
+        className="absolute -left-[22%] -top-[18%] h-[min(98vmin,940px)] w-[min(98vmin,940px)] rounded-full bg-[#00d4ff]/10 blur-[100px] sm:-left-1/4 sm:-top-1/4 sm:h-[82vh] sm:w-[82vw] sm:blur-[120px]"
         animate={{
-          x: [0, 40, 0],
-          y: [0, 28, 0],
-          scale: [1, 1.08, 1],
+          x: [0, 18, 0],
+          y: [0, 72, 0],
+          scale: [1, 1.07, 1],
         }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
+        transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
+        aria-hidden
       />
       <motion.div
-        className="absolute -bottom-[20%] -right-[15%] h-[min(85vmin,820px)] w-[min(85vmin,820px)] rounded-full bg-[#0066aa]/18 blur-[90px] sm:-bottom-1/4 sm:-right-1/4 sm:h-[60vh] sm:w-[60vw] sm:blur-[100px]"
+        className="absolute -bottom-[22%] -right-[18%] h-[min(88vmin,860px)] w-[min(88vmin,860px)] rounded-full bg-[#0066aa]/15 blur-[90px] sm:-bottom-1/4 sm:-right-1/4 sm:h-[62vh] sm:w-[62vw] sm:blur-[100px]"
         animate={{
-          x: [0, -36, 0],
-          y: [0, -24, 0],
+          x: [0, -22, 0],
+          y: [0, -68, 0],
         }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
+        transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
+        aria-hidden
       />
-      {/* Subtle grid — full bleed */}
-      <div
-        className="absolute inset-0 opacity-[0.035] sm:opacity-[0.03]"
+
+      {/* Grid — continuous gentle scroll downward (full height) */}
+      <motion.div
+        className="absolute inset-0 opacity-[0.042] max-md:opacity-[0.055] sm:opacity-[0.035]"
         style={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-          backgroundSize: "52px 52px",
+          backgroundImage: `linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px)`,
+          backgroundSize: "44px 44px",
         }}
+        animate={{ backgroundPosition: ["0px 0px", "0px 44px"] }}
+        transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
+        aria-hidden
       />
-      {/* Light streaks — all viewports; slightly softer on small screens */}
+
+      {/* Horizontal light bands — staggered down the screen (reads as top→bottom flow on mobile) */}
       <div className="absolute inset-0">
+        {[
+          { top: 12, delay: 0 },
+          { top: 32, delay: 0.7 },
+          { top: 52, delay: 1.4 },
+          { top: 72, delay: 2.1 },
+          { top: 88, delay: 2.8 },
+        ].map(({ top, delay }) => (
+          <motion.div
+            key={top}
+            className="absolute left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00d4ff]/28 to-transparent max-md:via-[#00d4ff]/32 sm:via-[#00d4ff]/22"
+            style={{ top: `${top}%` }}
+            animate={{ opacity: [0.15, 0.72, 0.15] }}
+            transition={{
+              duration: 5,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay,
+            }}
+            aria-hidden
+          />
+        ))}
+
+        {/* Full-height vertical beam */}
         <motion.div
-          className="absolute left-0 top-1/4 h-px w-full bg-gradient-to-r from-transparent via-[#00d4ff]/25 to-transparent sm:via-[#00d4ff]/20"
-          animate={{ opacity: [0.25, 0.55, 0.25] }}
-          transition={{ duration: 4, repeat: Infinity }}
+          className="absolute top-0 h-full w-px max-md:left-[22%] left-[30%] bg-gradient-to-b from-[#00d4ff]/16 via-[#00d4ff]/8 to-[#00a8d4]/14"
+          animate={{ opacity: [0.22, 0.55, 0.22] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+          aria-hidden
         />
+
+        {/* Bottom closing line — anchors the vertical composition */}
         <motion.div
-          className="absolute left-1/3 top-0 h-full w-px max-md:left-[28%] bg-gradient-to-b from-transparent via-[#00d4ff]/12 to-transparent sm:via-[#00d4ff]/10"
-          animate={{ opacity: [0.18, 0.4, 0.18] }}
-          transition={{ duration: 5, repeat: Infinity }}
-        />
-        <motion.div
-          className="absolute bottom-[22%] right-0 h-px w-full bg-gradient-to-r from-transparent via-[#00a8d4]/15 to-transparent md:via-[#00a8d4]/12"
-          animate={{ opacity: [0.2, 0.45, 0.2] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute bottom-[8%] left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#00a8d4]/20 to-transparent max-md:via-[#00a8d4]/26"
+          animate={{ opacity: [0.2, 0.6, 0.2] }}
+          transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          aria-hidden
         />
       </div>
     </div>
