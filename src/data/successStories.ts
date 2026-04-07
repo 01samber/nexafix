@@ -11,7 +11,7 @@ export const SUCCESS_STORY_HEADER = "Nexa Fix Success Stories";
 export const SUCCESS_STORIES: SuccessStory[] = [
   {
     id: "school-flooring",
-    subtitle: "Hardwood Floor Restoration & Replacement – School Facility",
+    subtitle: "Hardwood floor restoration and replacement, school facility",
     paragraphs: [
       "Our first work order with a new school client involved addressing a critical flooring failure where sections of the hardwood floor had begun buckling and heaving due to insufficient expansion gaps. This condition not only compromised the integrity of the flooring system but also created significant trip hazards for students and staff.",
       "Our technicians conducted a detailed on-site assessment, identifying the root cause and developing a corrective plan. Upon approval, our team proceeded with floor remediation, carefully relieving pressure points, treating the affected subfloor where necessary, and installing new hardwood flooring with properly calculated expansion spacing to ensure long-term stability and performance.",
@@ -37,11 +37,11 @@ export const SUCCESS_STORIES: SuccessStory[] = [
   },
   {
     id: "hvac-massachusetts",
-    subtitle: "Fast & Precise AC Installation – Massachusetts",
+    subtitle: "Fast, precise AC installation, Massachusetts",
     paragraphs: [
       "One of our clients in Massachusetts contacted Nexa Fix for two new split-unit air conditioning systems. Our certified technicians assessed the space, determined optimal unit placement, and planned dedicated circuit breakers, as the existing panel could not handle the additional load.",
       "Thanks to our trusted supply chain, we sourced the units at a competitive price. Installation was completed in just two visits, with all refrigerant piping and electrical connections secured and fully code-compliant. The city inspector approved the work, and the client was thrilled with the seamless, professional execution.",
-      "With Nexa Fix, complex HVAC projects are handled with technical precision, efficiency, and top-tier service—delivering results that keep both clients and staff comfortable.",
+      "Complex HVAC work from Nexa Fix stays precise, efficient, and professional, so clients and staff stay comfortable.",
     ],
     imageFolder: "hvac",
     images: [
@@ -66,11 +66,11 @@ export const SUCCESS_STORIES: SuccessStory[] = [
   },
   {
     id: "gainesville-conversion",
-    subtitle: "Expert Facility Conversion – Gainesville, GA",
+    subtitle: "Full facility conversion, Gainesville, GA",
     paragraphs: [
       "Our team at Nexa Fix recently completed a full-scale facility conversion for a client in Gainesville, GA, delivering high-quality results across multiple areas of the store while ensuring operations remained uninterrupted. The project included creating a new opening into the production room near the manager's office to optimize workflow; installing custom millwork and handcrafted cabinets with premium stone countertops in the breakroom and men's restroom; and upgrading electrical systems to support staff appliances. Lock cylinders and door hardware were replaced with BEST cores from our trusted partners to enhance security, while obsolete track lighting in the donation center was removed and opaque black film was applied to four storefront windows to provide privacy without compromising aesthetics.",
       "From the outset, our team conducted a thorough assessment and presented a detailed execution plan, which management approved. Work was scheduled in split shifts, with routine tasks during normal hours and critical installations and demolition after hours, ensuring the store remained fully operational. Impressively, the entire project was completed within six business days, meeting the client's timeline without compromising quality.",
-      "With a trusted supply chain and meticulous attention to craftsmanship, Nexa Fix delivered a facility that is fully functional, code-compliant, and visually striking—showcasing our technical expertise and commitment to excellence.",
+      "With solid vendors and careful craftsmanship, Nexa Fix turned out a space that works, meets code, and looks sharp. That is the standard we hold ourselves to.",
     ],
     imageFolder: "gainesville",
     images: [
@@ -110,12 +110,12 @@ export const SUCCESS_STORIES: SuccessStory[] = [
   },
   {
     id: "forest-park-restroom",
-    subtitle: "Transforming a Showcase Area into a Modern Employee Restroom – Forest Park, GA",
+    subtitle: "Showcase space to modern employee restroom, Forest Park, GA",
     paragraphs: [
       "When our client in Forest Park, GA needed a large showcase area converted into a comfortable employee restroom, we provided a full turnkey solution from assessment to execution. Our team carefully assessed the space and presented a detailed plan, which the client approved before work began.",
       "The transformation included up-to-code plumbing with PEX water lines and PVC drains, and a dedicated electrical circuit to power refrigerators, microwaves, and additional outlets. We also designed and installed custom cabinetry, creating a functional and aesthetically pleasing space for staff.",
       "To minimize disruption, the project was completed in just five business days. Routine work was scheduled during normal hours, while excavation and sensitive tasks were performed after hours, ensuring operations continued smoothly without interruption.",
-      "The result: a professional, code-compliant restroom that enhances staff comfort, maximizes space usability, and reflects the high standards our clients expect—while keeping the client's operations running.",
+      "The outcome is a clean, code-compliant restroom, easier for staff to use, with layout that fits the space, while day-to-day operations kept moving.",
     ],
     imageFolder: "forestpark",
     images: [

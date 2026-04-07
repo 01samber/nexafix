@@ -5,6 +5,7 @@ import { createPortal } from "react-dom";
 import { motion, AnimatePresence } from "motion/react";
 import type { SuccessStory } from "@/data/successStories";
 import { storyImageSrc } from "@/data/successStories";
+import { MediaViewerCloseControl } from "@/components/Brochure/gallery/MediaViewerCloseControl";
 
 interface Props {
   story: SuccessStory | null;
@@ -157,13 +158,13 @@ function GalleryModalInner({ story, onClose }: { story: SuccessStory; onClose: (
             )}
           </p>
         </div>
-        <button
-          type="button"
-          onClick={onClose}
-          className="shrink-0 rounded-full border border-white/20 px-3 py-1.5 text-xs font-medium text-white transition hover:border-[#00d4ff]/50 hover:bg-[#00d4ff]/10 sm:px-4 sm:py-2 sm:text-sm"
-        >
-          Close
-        </button>
+        <MediaViewerCloseControl
+          onClick={(e) => {
+            e.stopPropagation();
+            onClose();
+          }}
+          className="shrink-0"
+        />
       </header>
 
       <div className="relative min-h-0 flex-1 overflow-hidden">
@@ -186,7 +187,7 @@ function GalleryModalInner({ story, onClose }: { story: SuccessStory; onClose: (
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={storyImageSrc(story.imageFolder, story.images[viewerIndex])}
-                  alt={`${story.subtitle} — photo ${viewerIndex + 1} of ${n}`}
+                  alt={`${story.subtitle}, photo ${viewerIndex + 1} of ${n}`}
                   className="max-h-full max-w-full object-contain"
                   draggable={false}
                 />

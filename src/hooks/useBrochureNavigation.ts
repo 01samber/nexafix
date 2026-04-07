@@ -4,9 +4,46 @@ import { useState, useCallback, useEffect, useRef } from "react";
 import { SCENES } from "@/data/scenes";
 import { playTapSound } from "@/utils/playTapSound";
 
-function eventFromSuccessGallery(target: EventTarget | null): boolean {
+function eventFromInteractiveOverlay(target: EventTarget | null): boolean {
   if (typeof document === "undefined" || !(target instanceof Element)) return false;
-  return Boolean(target.closest("[data-success-gallery-modal]"));
+  return Boolean(
+    target.closest("[data-success-gallery-modal]") ||
+      target.closest("[data-main-gallery-lightbox]")
+  );
+}
+
+function eventFromProjectGalleryPage(target: EventTarget | null): boolean {
+  if (typeof document === "undefined" || !(target instanceof Element)) return false;
+  return Boolean(target.closest("[data-project-gallery-scene]"));
+}
+
+/** Touch must begin in this inset from the left or right edge to count as a brochure page swipe (avoids fighting gallery / scroll). */
+function brochureSwipeEdgeInsetPx(): number {
+  if (typeof window === "undefined") return 56;
+  const w = window.innerWidth;
+  return Math.min(64, Math.max(40, Math.round(w * 0.11)));
+}
+
+function touchStartedInBrochureEdge(clientX: number): boolean {
+  const inset = brochureSwipeEdgeInsetPx();
+  const w = window.innerWidth;
+  return clientX <= inset || clientX >= w - inset;
+}
+
+type BrochureTouchGesture = {
+  startX: number;
+  startY: number;
+  edgeEligible: boolean;
+};
+
+/** Defer URL updates so we never call history.replaceState during React render (Next.js Router sync). */
+function schedulePageParam(page1Based: number) {
+  queueMicrotask(() => {
+    if (typeof window === "undefined") return;
+    const url = new URL(window.location.href);
+    url.searchParams.set("page", String(page1Based));
+    window.history.replaceState({}, "", url.toString());
+  });
 }
 
 export function useBrochureNavigation() {
@@ -17,11 +54,7 @@ export function useBrochureNavigation() {
   const setCurrentIndex = useCallback((index: number) => {
     const clamped = Math.max(0, Math.min(index, totalScenes - 1));
     setCurrentIndexState(clamped);
-    if (typeof window !== "undefined") {
-      const url = new URL(window.location.href);
-      url.searchParams.set("page", String(clamped + 1));
-      window.history.replaceState({}, "", url.toString());
-    }
+    schedulePageParam(clamped + 1);
   }, [totalScenes]);
 
   const goTo = useCallback((index: number) => setCurrentIndex(index), [setCurrentIndex]);
@@ -29,11 +62,7 @@ export function useBrochureNavigation() {
   const next = useCallback(() => {
     setCurrentIndexState((i) => {
       const nextIdx = Math.min(i + 1, totalScenes - 1);
-      if (typeof window !== "undefined") {
-        const url = new URL(window.location.href);
-        url.searchParams.set("page", String(nextIdx + 1));
-        window.history.replaceState({}, "", url.toString());
-      }
+      schedulePageParam(nextIdx + 1);
       return nextIdx;
     });
   }, [totalScenes]);
@@ -41,18 +70,18 @@ export function useBrochureNavigation() {
   const prev = useCallback(() => {
     setCurrentIndexState((i) => {
       const prevIdx = Math.max(i - 1, 0);
-      if (typeof window !== "undefined") {
-        const url = new URL(window.location.href);
-        url.searchParams.set("page", String(prevIdx + 1));
-        window.history.replaceState({}, "", url.toString());
-      }
+      schedulePageParam(prevIdx + 1);
       return prevIdx;
     });
   }, []);
 
   const handleWheel = useCallback(
     (e: Event) => {
-      if (eventFromSuccessGallery((e as WheelEvent).target)) return;
+      if (
+        eventFromInteractiveOverlay((e as WheelEvent).target) ||
+        eventFromProjectGalleryPage((e as WheelEvent).target)
+      )
+        return;
       const we = e as WheelEvent;
       if (Math.abs(we.deltaY) > 30) {
         we.preventDefault();
@@ -63,31 +92,64 @@ export function useBrochureNavigation() {
     [next, prev]
   );
 
-  const touchStartX = useRef<number>(0);
+  /**
+   * Mobile brochure pages: only edge-started horizontal swipes change the page.
+   * Center horizontal drags stay with the content (e.g. photo grid, scrolling) / lightbox (portaled).
+   */
+  const touchGesture = useRef<BrochureTouchGesture | null>(null);
+
   const handleTouchStart = useCallback((e: Event) => {
     const te = e as TouchEvent;
-    if (eventFromSuccessGallery(te.target)) return;
-    touchStartX.current = te.touches[0].clientX;
+    if (eventFromInteractiveOverlay(te.target)) {
+      touchGesture.current = null;
+      return;
+    }
+    const t0 = te.touches[0];
+    const x = t0.clientX;
+    const y = t0.clientY;
+    touchGesture.current = {
+      startX: x,
+      startY: y,
+      edgeEligible: touchStartedInBrochureEdge(x),
+    };
   }, []);
 
   const handleTouchEnd = useCallback(
     (e: Event) => {
       const te = e as TouchEvent;
-      if (eventFromSuccessGallery(te.target)) return;
-      const touchEndX = te.changedTouches[0].clientX;
-      const diff = touchStartX.current - touchEndX;
-      if (Math.abs(diff) > 50) {
-        playTapSound();
-        if (diff > 0) next();
-        else prev();
+      if (eventFromInteractiveOverlay(te.target)) {
+        touchGesture.current = null;
+        return;
       }
+      const g = touchGesture.current;
+      touchGesture.current = null;
+      if (!g?.edgeEligible) return;
+
+      const end = te.changedTouches[0];
+      const dx = g.startX - end.clientX;
+      const dy = g.startY - end.clientY;
+      const minHoriz = 52;
+      if (Math.abs(dx) < minHoriz) return;
+      if (Math.abs(dx) < Math.abs(dy) * 1.15) return;
+
+      playTapSound();
+      if (dx > 0) next();
+      else prev();
     },
     [next, prev]
   );
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
-      if (typeof document !== "undefined" && document.querySelector("[data-success-gallery-modal]")) {
+      if (
+        typeof document !== "undefined" &&
+        (document.querySelector("[data-success-gallery-modal]") ||
+          document.querySelector("[data-main-gallery-lightbox]"))
+      ) {
+        return;
+      }
+      const t = e.target;
+      if (typeof document !== "undefined" && t instanceof Node && eventFromProjectGalleryPage(t)) {
         return;
       }
       if (e.key === "ArrowRight" || e.key === "ArrowDown" || e.key === " ") {
@@ -108,8 +170,10 @@ export function useBrochureNavigation() {
   useEffect(() => {
     if (typeof window === "undefined") return;
     const params = new URLSearchParams(window.location.search);
-    const page = parseInt(params.get("page") ?? "1", 10);
-    if (page >= 1 && page <= totalScenes) setCurrentIndexState(page - 1);
+    const raw = parseInt(params.get("page") ?? "1", 10);
+    const page = Number.isFinite(raw) ? raw : 1;
+    const clamped = Math.min(Math.max(page, 1), totalScenes);
+    setCurrentIndexState(clamped - 1);
   }, [totalScenes]);
 
   useEffect(() => {
@@ -127,11 +191,16 @@ export function useBrochureNavigation() {
   useEffect(() => {
     const container = document.querySelector("[data-brochure-container]");
     if (!container) return;
+    const onTouchCancel = () => {
+      touchGesture.current = null;
+    };
     container.addEventListener("touchstart", handleTouchStart as EventListener, { passive: true });
     container.addEventListener("touchend", handleTouchEnd as EventListener, { passive: true });
+    container.addEventListener("touchcancel", onTouchCancel, { passive: true });
     return () => {
       container.removeEventListener("touchstart", handleTouchStart);
       container.removeEventListener("touchend", handleTouchEnd);
+      container.removeEventListener("touchcancel", onTouchCancel);
     };
   }, [handleTouchStart, handleTouchEnd]);
 

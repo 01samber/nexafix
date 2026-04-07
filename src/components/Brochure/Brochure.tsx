@@ -12,30 +12,27 @@ const dyn = (importer: () => Promise<{ default: ComponentType }>) =>
 
 const CoverScene = dyn(() => import("./scenes/CoverScene").then((m) => ({ default: m.CoverScene })));
 const ProblemScene = dyn(() => import("./scenes/ProblemScene").then((m) => ({ default: m.ProblemScene })));
-const SolutionScene = dyn(() => import("./scenes/SolutionScene").then((m) => ({ default: m.SolutionScene })));
-const ServicesScene = dyn(() => import("./scenes/ServicesScene").then((m) => ({ default: m.ServicesScene })));
-const WhyNexafixScene = dyn(() => import("./scenes/WhyNexafixScene").then((m) => ({ default: m.WhyNexafixScene })));
-const ProcessScene = dyn(() => import("./scenes/ProcessScene").then((m) => ({ default: m.ProcessScene })));
-const ResultsScene = dyn(() => import("./scenes/ResultsScene").then((m) => ({ default: m.ResultsScene })));
-const CTAScene = dyn(() => import("./scenes/CTAScene").then((m) => ({ default: m.CTAScene })));
-const BackCoverScene = dyn(() =>
-  import("./scenes/BackCoverScene").then((m) => ({ default: m.BackCoverScene }))
+const GalleryIntroScene = dyn(() =>
+  import("./scenes/GalleryIntroScene").then((m) => ({ default: m.GalleryIntroScene }))
 );
+const GalleryPhotosScene = dyn(() =>
+  import("./scenes/GalleryPhotosScene").then((m) => ({ default: m.GalleryPhotosScene }))
+);
+const GalleryVideosScene = dyn(() =>
+  import("./scenes/GalleryVideosScene").then((m) => ({ default: m.GalleryVideosScene }))
+);
+const CTAScene = dyn(() => import("./scenes/CTAScene").then((m) => ({ default: m.CTAScene })));
 import { ProgressIndicator } from "@/components/ui/ProgressIndicator";
 import { AmbientMotion } from "@/components/ui/AmbientMotion";
-import { BrochureActions } from "@/components/ui/BrochureActions";
 import { motion } from "motion/react";
 
 const SCENE_COMPONENTS = [
   CoverScene,
   ProblemScene,
-  SolutionScene,
-  ServicesScene,
-  WhyNexafixScene,
-  ProcessScene,
-  ResultsScene,
+  GalleryIntroScene,
+  GalleryPhotosScene,
+  GalleryVideosScene,
   CTAScene,
-  BackCoverScene,
 ];
 
 export function Brochure() {
@@ -46,6 +43,7 @@ export function Brochure() {
     prev,
     hasNext,
     hasPrev,
+    totalScenes,
   } = useBrochureNavigation();
   const isMobile = useIsMobile();
 
@@ -68,7 +66,7 @@ export function Brochure() {
       <ProgressIndicator currentIndex={currentIndex} onNavigate={handleNavigate} />
 
       {/* Scene stack — mobile: flex column so short scenes still fill the visible scrollport (no blank band) */}
-      <div className="relative z-[1] max-md:flex max-md:min-h-0 max-md:flex-1 max-md:flex-col max-md:overflow-x-hidden max-md:overflow-y-auto max-md:overscroll-y-contain max-md:pb-[calc(5.5rem+env(safe-area-inset-bottom,0px))] md:min-h-dvh">
+      <div className="relative z-[1] max-md:flex max-md:min-h-0 max-md:flex-1 max-md:flex-col max-md:overflow-x-hidden max-md:overflow-y-auto max-md:overscroll-y-contain max-md:pb-[calc(5.5rem+env(safe-area-inset-bottom,0px))] md:max-h-dvh md:min-h-0 md:overflow-y-auto md:overscroll-y-contain">
         <div className="relative flex w-full max-md:min-h-full max-md:flex-1 max-md:flex-col max-md:min-h-0 md:min-h-dvh">
           {SCENE_COMPONENTS.map((SceneComponent, i) => (
             <SceneWrapper key={i} isActive={i === currentIndex}>
@@ -78,10 +76,7 @@ export function Brochure() {
         </div>
       </div>
 
-      {/* Share - mobile only */}
-      <div className="print:hidden">{isMobile && <BrochureActions />}</div>
-
-      {/* Nav arrows - desktop only; mobile uses swipe */}
+      {/* Nav arrows - desktop only; mobile: edge swipe + top progress bar */}
       {!isMobile && hasPrev && (
         <motion.button
           onClick={prev}
@@ -127,7 +122,7 @@ export function Brochure() {
       {!isMobile && (
         <div className="print:hidden fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-full border border-white/10 bg-black/40 px-4 py-2 backdrop-blur-sm">
           <span className="text-sm text-white/80">
-            {currentIndex + 1} / 9
+            {currentIndex + 1} / {totalScenes}
           </span>
         </div>
       )}

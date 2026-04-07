@@ -22,7 +22,7 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   title: "Nexafix | Fix It Before It Fails | ConnexFM Expo",
   description:
-    "Smart Facility Maintenance. Fast Response. Reliable Execution. Nexafix doesn't just fix problems — we prevent them.",
+    "Smart facility maintenance, fast response, solid execution. Nexafix helps you fix problems before they take sites offline.",
   openGraph: {
     title: "Nexafix | Fix It Before It Fails",
     description: "Smart Facility Maintenance. Fast Response. Reliable Execution.",

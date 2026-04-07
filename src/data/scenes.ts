@@ -1,13 +1,10 @@
 export type SceneId =
   | "cover"
   | "problem"
-  | "solution"
-  | "services"
-  | "why"
-  | "process"
-  | "results"
-  | "cta"
-  | "back";
+  | "galleryIntro"
+  | "galleryPhotos"
+  | "galleryVideos"
+  | "cta";
 
 export interface SceneData {
   id: SceneId;
@@ -37,71 +34,33 @@ export const SCENES: SceneData[] = [
     variant: "tension",
   },
   {
-    id: "solution",
-    title: "The Solution",
-    headline: "Meet Nexafix",
+    id: "galleryIntro",
+    title: "Portfolio",
+    headline: "Our work in the field",
     content:
-      "Nexafix is your next-generation facility maintenance partner — built to deliver speed, reliability, and full operational control.\nWe don't just fix problems. We prevent them.",
-    variant: "clarity",
-  },
-  {
-    id: "services",
-    title: "Services",
-    headline: "What We Do",
-    content: [
-      "Facility Maintenance\nElectrical · HVAC · Plumbing",
-      "Soft Services\nCleaning · Waste Management",
-      "Smart Solutions\nPreventive Maintenance · AI-Driven Tracking",
-      "Specialized Services\nFit-Outs · Technical Inspections",
-    ],
-    variant: "interactive",
-  },
-  {
-    id: "why",
-    title: "Why Nexafix",
-    headline: "Why Nexafix?",
-    content: [
-      "Fast response. No delays.",
-      "Reliable execution. No excuses.",
-      "Data-driven maintenance decisions.",
-      "Built to scale across multiple sites.",
-      "Clear reporting. Full transparency.",
-    ],
+      "Real Nexa Fix jobs in the field: installs, turnovers, and busy sites. Then open the photo and video galleries.",
     variant: "proof",
   },
   {
-    id: "process",
-    title: "Process",
-    headline: "How It Works",
-    content: "Assess → Plan → Execute → Monitor → Optimize\n\nWe handle everything — so you don't have to.",
-    variant: "flow",
+    id: "galleryPhotos",
+    title: "Photography",
+    headline: "Project photography",
+    content: "Masonry layout: tap any still for fullscreen. Swipe or use arrows inside the viewer to browse.",
+    variant: "proof",
   },
   {
-    id: "results",
-    title: "Results",
-    headline: "Real Impact",
-    content: [
-      "Reduced downtime.",
-      "Lower maintenance costs.",
-      "Improved operational efficiency.",
-    ],
-    tagline: "Built for businesses that can't afford interruptions.",
-    variant: "metrics",
+    id: "galleryVideos",
+    title: "Video",
+    headline: "On-site video",
+    content: "Field clips with normal video controls. Tap a clip for fullscreen and the thumbnail strip.",
+    variant: "proof",
   },
   {
     id: "cta",
-    title: "CTA",
-    headline: "Let's Fix Your Facility",
+    title: "Contact",
+    headline: "Get our full details",
     content:
-      "Scan to get a free facility assessment.\nOr speak to us today at our booth.",
+      "Scan the code on your phone for our contact card (site, email, phone) in your browser. You can also talk with us at the booth.",
     variant: "cta",
-  },
-  {
-    id: "back",
-    title: "Back Cover",
-    tagline: "Maintenance You Can Finally Trust.",
-    content: "",
-    footer: ["Nexafix", "nexafix.com", "info@nexafix.com", "+1 (555) 123-4567"],
-    variant: "finish",
   },
 ];

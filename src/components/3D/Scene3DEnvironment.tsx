@@ -4,16 +4,7 @@ import { useRef, useMemo, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
-export type SceneVariant =
-  | "cover"
-  | "problem"
-  | "solution"
-  | "services"
-  | "why"
-  | "process"
-  | "results"
-  | "cta"
-  | "back";
+export type SceneVariant = "cover" | "problem" | "gallery" | "cta" | "back";
 
 // —— Shared: particles being pulled into void ——
 function VoidParticles({ count = 600 }: { count?: number }) {
@@ -179,136 +170,7 @@ function ShapeProblem() {
   );
 }
 
-// —— 3. SOLUTION: Sphere (wholeness) ——
-function ShapeSolution() {
-  const ref = useRef<THREE.Mesh>(null);
-  const sphereGeo = useMemo(() => new THREE.SphereGeometry(1.2, 32, 24), []);
-  useFrame((_, d) => {
-    if (ref.current) ref.current.rotation.y += d * 0.35;
-  });
-  return (
-    <group>
-      <mesh ref={ref}>
-        <sphereGeometry args={[1.2, 32, 24]} />
-        <meshBasicMaterial color="#000000" transparent opacity={0.2} />
-      </mesh>
-      <lineSegments>
-        <edgesGeometry args={[sphereGeo]} />
-        {lineMat}
-      </lineSegments>
-    </group>
-  );
-}
-
-// —— 4. SERVICES: Four orbiting shapes ——
-function ShapeServices() {
-  const groupRef = useRef<THREE.Group>(null);
-  useFrame((_, d) => {
-    if (groupRef.current) groupRef.current.rotation.y += d * 0.2;
-  });
-  const shapes = [
-    { Geo: () => <boxGeometry args={[0.65, 0.65, 0.65]} /> },
-    { Geo: () => <sphereGeometry args={[0.45, 20, 16]} /> },
-    { Geo: () => <torusGeometry args={[0.4, 0.12, 12, 32]} /> },
-    { Geo: () => <cylinderGeometry args={[0.35, 0.35, 0.9, 24]} /> },
-  ];
-  return (
-    <group ref={groupRef}>
-      {shapes.map((s, i) => {
-        const angle = (i / 4) * Math.PI * 2 + Math.PI / 4;
-        const r = 2;
-        const x = Math.cos(angle) * r;
-        const z = Math.sin(angle) * r;
-        return (
-          <mesh key={i} position={[x, 0, z]}>
-            {s.Geo()}
-            <meshBasicMaterial color="#00d4ff" wireframe transparent opacity={0.6} />
-          </mesh>
-        );
-      })}
-    </group>
-  );
-}
-
-// —— 5. WHY: Pyramid / octahedron (foundation) ——
-function ShapeWhy() {
-  const ref = useRef<THREE.Group>(null);
-  const octGeo = useMemo(() => new THREE.OctahedronGeometry(1.4, 0), []);
-  useFrame((_, d) => {
-    if (ref.current) ref.current.rotation.y += d * 0.25;
-  });
-  return (
-    <group ref={ref}>
-      <mesh rotation={[0, 0, Math.PI / 4]}>
-        <octahedronGeometry args={[1.4, 0]} />
-        <meshBasicMaterial color="#000000" transparent opacity={0.18} />
-      </mesh>
-      <lineSegments>
-        <edgesGeometry args={[octGeo]} />
-        {lineMat}
-      </lineSegments>
-    </group>
-  );
-}
-
-// —— 6. PROCESS: Pentagon ring (5 steps) ——
-const sphereSmallGeo = new THREE.SphereGeometry(0.35, 12, 8);
-
-function ShapeProcess() {
-  const groupRef = useRef<THREE.Group>(null);
-  useFrame((_, d) => {
-    if (groupRef.current) groupRef.current.rotation.y += d * 0.22;
-  });
-  return (
-    <group ref={groupRef}>
-      {Array.from({ length: 5 }, (_, i) => {
-        const a = (i / 5) * Math.PI * 2 - Math.PI / 2;
-        const r = 1.8;
-        const x = Math.cos(a) * r;
-        const z = Math.sin(a) * r;
-        return (
-          <group key={i} position={[x, 0, z]}>
-            <mesh>
-              <sphereGeometry args={[0.35, 12, 8]} />
-              <meshBasicMaterial color="#00d4ff" transparent opacity={0.5} />
-            </mesh>
-            <lineSegments>
-              <edgesGeometry args={[sphereSmallGeo]} />
-              {lineMat}
-            </lineSegments>
-          </group>
-        );
-      })}
-      <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <ringGeometry args={[1.5, 2, 5]} />
-        <meshBasicMaterial color="#00d4ff" transparent opacity={0.1} side={THREE.DoubleSide} />
-      </mesh>
-    </group>
-  );
-}
-
-// —— 7. RESULTS: Diamond / octahedron upright (value, precision) ——
-function ShapeResults() {
-  const ref = useRef<THREE.Group>(null);
-  const octGeo = useMemo(() => new THREE.OctahedronGeometry(1.3, 0), []);
-  useFrame((_, d) => {
-    if (ref.current) ref.current.rotation.y += d * 0.3;
-  });
-  return (
-    <group ref={ref} rotation={[0, 0, Math.PI / 2]}>
-      <mesh>
-        <octahedronGeometry args={[1.3, 0]} />
-        <meshBasicMaterial color="#000000" transparent opacity={0.15} />
-      </mesh>
-      <lineSegments>
-        <edgesGeometry args={[octGeo]} />
-        {lineMat}
-      </lineSegments>
-    </group>
-  );
-}
-
-// —— 8. CTA: Beacon / vertical cylinder (drawing you in) ——
+// —— 3. CTA: Beacon / vertical cylinder (drawing you in) ——
 function ShapeCTA() {
   const ref = useRef<THREE.Group>(null);
   const cylGeo = useMemo(() => new THREE.CylinderGeometry(0.5, 0.6, 2.2, 24), []);
@@ -333,7 +195,7 @@ function ShapeCTA() {
   );
 }
 
-// —— 9. BACK: Torus (complete loop, closure) ——
+// —— 4. BACK: Torus (complete loop, closure) ——
 function ShapeBack() {
   const ref = useRef<THREE.Mesh>(null);
   const torusGeo = useMemo(() => new THREE.TorusGeometry(1.2, 0.2, 24, 48), []);
@@ -364,16 +226,6 @@ function CentralShape({ variant }: { variant: SceneVariant }) {
       return null;
     case "problem":
       return <ShapeProblem />;
-    case "solution":
-      return <ShapeSolution />;
-    case "services":
-      return <ShapeServices />;
-    case "why":
-      return <ShapeWhy />;
-    case "process":
-      return <ShapeProcess />;
-    case "results":
-      return <ShapeResults />;
     case "cta":
       return <ShapeCTA />;
     case "back":
@@ -393,8 +245,8 @@ export function Scene3DEnvironment({ variant }: Scene3DEnvironmentProps) {
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
   const [mobile, setMobile] = useState(isMobile);
   const isCover = variant === "cover";
-  /** Success Stories slide: let global AmbientMotion show through (same as non-3D pages). */
-  const useAmbientBackdrop = variant === "problem";
+  /** Let global AmbientMotion show through (keeps media slides readable on iOS/Android). */
+  const useAmbientBackdrop = variant === "problem" || variant === "gallery";
 
   useEffect(() => {
     const check = () => setMobile(window.innerWidth < 768);

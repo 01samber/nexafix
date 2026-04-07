@@ -57,7 +57,7 @@ export function CoverScene() {
       >
         <Image
           src="/nexafix-logo.png"
-          alt="Nexafix — NEXA LEVEL SERVICE"
+          alt="Nexafix. NEXA LEVEL SERVICE"
           width={720}
           height={640}
           priority

@@ -7,7 +7,7 @@ import { QRCodeSVG } from "qrcode.react";
 import { Scene3DLazy } from "@/components/3D/Scene3DLazy";
 import { PremiumButton } from "@/components/ui/PremiumButton";
 import { useIsMobile } from "@/hooks/useIsMobile";
-import { CONFIG } from "@/data/config";
+import { CONFIG, getContactCardUrl } from "@/data/config";
 
 export function CTAScene() {
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -49,17 +49,23 @@ export function CTAScene() {
           ref={titleRef}
           className="font-display mb-6 text-4xl font-bold text-white sm:text-4xl md:text-5xl"
         >
-          Let&apos;s Fix Your Facility
+          Get our full details
         </h2>
         <p ref={textRef} className="mb-8 text-lg leading-relaxed text-white/90 sm:mb-10 sm:text-lg md:mb-12 md:text-xl">
-          Scan to get a free facility assessment.
-          <br />
+          Scan the QR code with your phone. It opens our contact card on its own page: name, site,
+          email, and phone. It is not another slide in this brochure.
           {CONFIG.boothNumber !== "TBD" && (
-            <>Visit us at ConnexFM {CONFIG.eventYear} — Booth {CONFIG.boothNumber}. </>
+            <>
+              <br />
+              <span className="text-white/80">
+                ConnexFM {CONFIG.eventYear}, Booth {CONFIG.boothNumber}.
+              </span>
+            </>
           )}
-          Or speak to us today at our booth.
+          <br />
+          <span className="text-white/80">Or speak with us at our booth.</span>
         </p>
-        {/* QR beacon for free facility assessment */}
+        {/* QR opens /contact-card in the visitor&apos;s browser */}
         <motion.div
           ref={qrRef}
           className="relative mb-8"
@@ -74,13 +80,15 @@ export function CTAScene() {
         >
           <div className="flex flex-col items-center justify-center rounded-xl border-2 border-[#00d4ff]/50 bg-white p-3 sm:p-4">
             <QRCodeSVG
-              value={CONFIG.assessmentUrl}
+              value={getContactCardUrl()}
               size={isMobile ? 128 : 160}
               level="H"
               includeMargin={false}
               className="rounded"
             />
-            <span className="mt-2 text-sm font-medium text-[#0a0e17]">Free Facility Assessment</span>
+            <span className="mt-2 max-w-[14rem] text-center text-xs font-medium leading-snug text-[#0a0e17] sm:text-sm">
+              Scan for Nexafix contact card
+            </span>
           </div>
         </motion.div>
         <a href={`mailto:${CONFIG.email}?subject=Nexafix%20-%20ConnexFM%20${CONFIG.eventYear}%20Inquiry`}>
