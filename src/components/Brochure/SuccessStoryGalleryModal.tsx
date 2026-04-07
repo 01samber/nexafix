@@ -6,6 +6,12 @@ import { motion, AnimatePresence } from "motion/react";
 import type { SuccessStory } from "@/data/successStories";
 import { storyImageSrc } from "@/data/successStories";
 import { MediaViewerCloseControl } from "@/components/Brochure/gallery/MediaViewerCloseControl";
+import {
+  GALLERY_LIGHTBOX_TRANSITION,
+  fadeStackVariants,
+  lightboxSlideTransition,
+  slideBlurVariants,
+} from "@/components/Brochure/gallery/galleryLightboxMotion";
 
 interface Props {
   story: SuccessStory | null;
@@ -33,29 +39,77 @@ export function SuccessStoryGalleryModal({ story, onClose }: Props) {
 
 function GalleryModalInner({ story, onClose }: { story: SuccessStory; onClose: () => void }) {
   const [viewerIndex, setViewerIndex] = useState<number | null>(null);
-  const touchStart = useRef({ x: 0, y: 0 });
+  const [direction, setDirection] = useState(0);
+  const touchStart = useRef<{ x: number; y: number; t: number } | null>(null);
 
   const n = story.images.length;
 
   const goNext = useCallback(() => {
-    setViewerIndex((cur) => {
-      if (cur === null) return null;
-      return Math.min(cur + 1, n - 1);
-    });
-  }, [n]);
+    if (viewerIndex === null || viewerIndex >= n - 1) return;
+    setDirection(1);
+    setViewerIndex(viewerIndex + 1);
+  }, [viewerIndex, n]);
 
   const goPrev = useCallback(() => {
-    setViewerIndex((cur) => {
-      if (cur === null) return null;
-      return Math.max(cur - 1, 0);
-    });
-  }, [n]);
+    if (viewerIndex === null || viewerIndex <= 0) return;
+    setDirection(-1);
+    setViewerIndex(viewerIndex - 1);
+  }, [viewerIndex]);
+
+  /** Same gesture feel as main gallery lightbox: time limit, swipe down returns to grid */
+  const onViewerTouchStart = useCallback((e: React.TouchEvent) => {
+    e.stopPropagation();
+    touchStart.current = {
+      x: e.touches[0].clientX,
+      y: e.touches[0].clientY,
+      t: Date.now(),
+    };
+  }, []);
+
+  const onViewerTouchEnd = useCallback(
+    (e: React.TouchEvent) => {
+      e.stopPropagation();
+      const s = touchStart.current;
+      touchStart.current = null;
+      if (s === null || viewerIndex === null) return;
+      const x = e.changedTouches[0].clientX;
+      const y = e.changedTouches[0].clientY;
+      const dx = x - s.x;
+      const dy = y - s.y;
+      const dt = Date.now() - s.t;
+      if (dt > 900) return;
+      if (dy > 64 && dy > Math.abs(dx) * 1.15) {
+        setViewerIndex(null);
+        return;
+      }
+      if (Math.abs(dx) > 52 && Math.abs(dx) > Math.abs(dy) * 1.05) {
+        if (dx > 0) {
+          setDirection(-1);
+          setViewerIndex((c) => (c === null || c <= 0 ? c : c - 1));
+        } else {
+          setDirection(1);
+          setViewerIndex((c) => (c === null || c >= n - 1 ? c : c + 1));
+        }
+      }
+    },
+    [viewerIndex, n]
+  );
 
   const openViewer = useCallback((index: number) => {
+    setDirection(0);
     setViewerIndex(Math.max(0, Math.min(index, n - 1)));
   }, [n]);
 
   const closeViewer = useCallback(() => setViewerIndex(null), []);
+
+  const pickThumb = useCallback(
+    (i: number) => {
+      if (viewerIndex === null) return;
+      setDirection(i > viewerIndex ? 1 : -1);
+      setViewerIndex(Math.max(0, Math.min(i, n - 1)));
+    },
+    [viewerIndex, n]
+  );
 
   const handleKey = useCallback(
     (e: KeyboardEvent) => {
@@ -98,25 +152,12 @@ function GalleryModalInner({ story, onClose }: { story: SuccessStory; onClose: (
     e.stopPropagation();
   }, []);
 
-  const onViewerTouchStart = useCallback((e: React.TouchEvent) => {
-    e.stopPropagation();
-    const t = e.touches[0];
-    touchStart.current = { x: t.clientX, y: t.clientY };
-  }, []);
+  const variants =
+    GALLERY_LIGHTBOX_TRANSITION === "fadeStack" ? fadeStackVariants : slideBlurVariants;
+  const useCustom = GALLERY_LIGHTBOX_TRANSITION === "slideBlur";
 
-  const onViewerTouchEnd = useCallback(
-    (e: React.TouchEvent) => {
-      e.stopPropagation();
-      const t = e.changedTouches[0];
-      const dx = t.clientX - touchStart.current.x;
-      const dy = t.clientY - touchStart.current.y;
-      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 45) {
-        if (dx < 0) goNext();
-        else goPrev();
-      }
-    },
-    [goNext, goPrev]
-  );
+  const currentSrc =
+    viewerIndex !== null ? storyImageSrc(story.imageFolder, story.images[viewerIndex]) : "";
 
   return (
     <motion.div
@@ -124,7 +165,7 @@ function GalleryModalInner({ story, onClose }: { story: SuccessStory; onClose: (
       aria-modal="true"
       aria-label={`Photo gallery: ${story.subtitle}`}
       data-success-gallery-modal
-      className="fixed inset-0 z-[200] flex flex-col bg-[#050812]/95 backdrop-blur-md"
+      className="fixed inset-0 z-[560] flex flex-col bg-black/94 backdrop-blur-md"
       style={{ touchAction: "auto" }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -149,11 +190,12 @@ function GalleryModalInner({ story, onClose }: { story: SuccessStory; onClose: (
           <p className="mt-0.5 text-[10px] leading-snug text-white/50 sm:mt-1 sm:text-sm">
             {viewerIndex !== null ? (
               <>
-                Photo {viewerIndex + 1} of {n} · Swipe or use arrows · Close exits
+                Photo {viewerIndex + 1} of {n}. Swipe sideways for next or previous. Swipe down for
+                grid.
               </>
             ) : (
               <>
-                {n} images · Tap a photo to enlarge · Swipe between photos in viewer
+                {n} photos. Tap one to enlarge. Same controls as the portfolio gallery.
               </>
             )}
           </p>
@@ -172,51 +214,108 @@ function GalleryModalInner({ story, onClose }: { story: SuccessStory; onClose: (
           {viewerIndex !== null ? (
             <motion.div
               key="viewer"
-              className="absolute inset-0 flex flex-col bg-[#060a14]"
+              className="absolute inset-0 flex min-h-0 flex-col bg-[#050508]"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.15 }}
             >
               <div
-                className="relative flex min-h-0 flex-1 touch-manipulation items-center justify-center px-2 sm:px-4"
+                className="relative flex min-h-0 flex-1 touch-manipulation items-stretch justify-center px-2 pt-1 sm:px-4"
                 onTouchStart={onViewerTouchStart}
                 onTouchEnd={onViewerTouchEnd}
                 onTouchMove={(e) => e.stopPropagation()}
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={storyImageSrc(story.imageFolder, story.images[viewerIndex])}
-                  alt={`${story.subtitle}, photo ${viewerIndex + 1} of ${n}`}
-                  className="max-h-full max-w-full object-contain"
-                  draggable={false}
-                />
+                <div className="relative flex min-h-0 w-full flex-1 flex-col items-center justify-center md:min-h-[200px]">
+                  <div className="relative flex min-h-0 w-full flex-1 items-center justify-center">
+                    <AnimatePresence initial={false} custom={direction} mode="popLayout">
+                      <motion.div
+                        key={`${viewerIndex}-${currentSrc}`}
+                        custom={useCustom ? direction : undefined}
+                        variants={variants}
+                        initial="enter"
+                        animate="center"
+                        exit="exit"
+                        transition={lightboxSlideTransition(GALLERY_LIGHTBOX_TRANSITION)}
+                        className="flex h-full w-full items-center justify-center px-1 md:px-10"
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={currentSrc}
+                          alt={`${story.subtitle}, photo ${viewerIndex + 1} of ${n}`}
+                          className="h-auto w-auto max-h-[min(82dvh,calc(100dvh-11rem))] max-w-full rounded-xl object-contain shadow-2xl ring-1 ring-white/10 sm:max-h-[min(78dvh,calc(100dvh-10rem))] md:max-h-[min(74dvh,100%)]"
+                          draggable={false}
+                        />
+                      </motion.div>
+                    </AnimatePresence>
 
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    goPrev();
-                  }}
-                  disabled={viewerIndex <= 0}
-                  className="absolute left-1 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-black/55 text-lg text-white backdrop-blur-sm touch-manipulation transition hover:border-[#00d4ff]/60 hover:bg-[#00d4ff]/15 disabled:cursor-not-allowed disabled:opacity-25 sm:left-3 sm:h-12 sm:w-12"
-                  aria-label="Previous photo"
-                >
-                  ‹
-                </button>
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    goNext();
-                  }}
-                  disabled={viewerIndex >= n - 1}
-                  className="absolute right-1 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/25 bg-black/55 text-lg text-white backdrop-blur-sm touch-manipulation transition hover:border-[#00d4ff]/60 hover:bg-[#00d4ff]/15 disabled:cursor-not-allowed disabled:opacity-25 sm:right-3 sm:h-12 sm:w-12"
-                  aria-label="Next photo"
-                >
-                  ›
-                </button>
+                    {n > 1 && (
+                      <>
+                        <button
+                          type="button"
+                          aria-label="Previous"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            goPrev();
+                          }}
+                          disabled={viewerIndex <= 0}
+                          className="absolute left-0 top-1/2 z-[605] flex min-h-11 min-w-11 -translate-y-1/2 items-center justify-center rounded-r-xl border border-white/15 bg-black/55 text-white backdrop-blur-sm transition enabled:active:scale-95 enabled:hover:bg-black/75 disabled:opacity-25 sm:left-2 md:min-h-12 md:min-w-12"
+                        >
+                          <svg className="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                          </svg>
+                        </button>
+                        <button
+                          type="button"
+                          aria-label="Next"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            goNext();
+                          }}
+                          disabled={viewerIndex >= n - 1}
+                          className="absolute right-0 top-1/2 z-[605] flex min-h-11 min-w-11 -translate-y-1/2 items-center justify-center rounded-l-xl border border-white/15 bg-black/55 text-white backdrop-blur-sm transition enabled:active:scale-95 enabled:hover:bg-black/75 disabled:opacity-25 sm:right-2 md:min-h-12 md:min-w-12"
+                        >
+                          <svg className="h-7 w-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </div>
               </div>
+
+              {n > 1 && (
+                <div
+                  className="scrollbar-thin max-h-24 shrink-0 overflow-x-auto overflow-y-hidden border-t border-white/10 bg-black/40 px-2 py-2"
+                  style={{ WebkitOverflowScrolling: "touch" }}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div className="flex w-max gap-2 pb-1">
+                    {story.images.map((filename, i) => (
+                      <button
+                        key={`${filename}-thumb`}
+                        type="button"
+                        onClick={() => pickThumb(i)}
+                        className={`relative h-14 w-14 shrink-0 overflow-hidden rounded-lg border-2 transition sm:h-16 sm:w-16 ${
+                          i === viewerIndex
+                            ? "border-[#00d4ff] ring-2 ring-[#00d4ff]/30"
+                            : "border-transparent opacity-70 hover:opacity-100"
+                        }`}
+                        aria-label={`Open photo ${i + 1}`}
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={storyImageSrc(story.imageFolder, filename)}
+                          alt=""
+                          className="h-full w-full object-cover"
+                          draggable={false}
+                        />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               <div className="flex shrink-0 items-center justify-center gap-4 border-t border-white/10 px-3 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom,0px))]">
                 <p className="text-center text-xs tabular-nums text-white/80 sm:text-sm">

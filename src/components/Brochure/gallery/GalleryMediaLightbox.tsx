@@ -3,48 +3,25 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import Image from "next/image";
-import { motion, AnimatePresence, type Variants } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 import type { MainGalleryItem } from "@/data/mainGallery";
 import { MediaViewerCloseControl } from "@/components/Brochure/gallery/MediaViewerCloseControl";
+import {
+  GALLERY_LIGHTBOX_TRANSITION,
+  fadeStackVariants,
+  lightboxSlideTransition,
+  slideBlurVariants,
+  type GalleryLightboxTransition,
+} from "@/components/Brochure/gallery/galleryLightboxMotion";
 
-/**
- * Animation when changing items in the viewer.
- * - "slideBlur" — directional slide with a quick blur (easy to compare feel vs. brochure page transitions).
- * - "fadeStack" — scale + vertical crossfade; calmer on small screens.
- */
-export type GalleryLightboxTransition = "slideBlur" | "fadeStack";
-
-export const GALLERY_LIGHTBOX_TRANSITION: GalleryLightboxTransition = "slideBlur";
+export type { GalleryLightboxTransition };
+export { GALLERY_LIGHTBOX_TRANSITION };
 
 type GalleryMediaLightboxProps = {
   items: MainGalleryItem[];
   index: number | null;
   onClose: () => void;
   onIndexChange: (i: number) => void;
-};
-
-const slideBlurVariants: Variants = {
-  enter: (dir: number) => ({
-    x: dir >= 0 ? "18%" : "-18%",
-    opacity: 0,
-    filter: "blur(10px)",
-  }),
-  center: {
-    x: 0,
-    opacity: 1,
-    filter: "blur(0px)",
-  },
-  exit: (dir: number) => ({
-    x: dir >= 0 ? "-14%" : "14%",
-    opacity: 0,
-    filter: "blur(8px)",
-  }),
-};
-
-const fadeStackVariants: Variants = {
-  enter: { scale: 0.94, opacity: 0, y: 14 },
-  center: { scale: 1, opacity: 1, y: 0 },
-  exit: { scale: 1.03, opacity: 0, y: -10 },
 };
 
 export function GalleryMediaLightbox({
@@ -197,10 +174,7 @@ export function GalleryMediaLightbox({
                       initial="enter"
                       animate="center"
                       exit="exit"
-                      transition={{
-                        duration: GALLERY_LIGHTBOX_TRANSITION === "fadeStack" ? 0.28 : 0.32,
-                        ease: [0.25, 0.46, 0.45, 0.94],
-                      }}
+                      transition={lightboxSlideTransition(GALLERY_LIGHTBOX_TRANSITION)}
                       className="flex w-full items-center justify-center px-1 py-1 max-md:min-h-0 md:h-full md:px-14"
                     >
                       {active.kind === "image" ? (
