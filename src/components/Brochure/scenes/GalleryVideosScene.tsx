@@ -56,11 +56,6 @@ export function GalleryVideosScene() {
                 </svg>
               </button>
             </div>
-            {item.caption ? (
-              <p className="border-t border-white/10 bg-[#0d1321]/95 p-3 text-[13px] leading-relaxed text-white/80 sm:p-4 sm:text-sm">
-                {item.caption}
-              </p>
-            ) : null}
           </motion.article>
         ))}
       </div>

@@ -163,7 +163,7 @@ export function GalleryMediaLightbox({
               onTouchStart={onMediaTouchStart}
               onTouchEnd={onMediaTouchEnd}
             >
-              {/* Mobile: scroll so caption + thumbs stay reachable; desktop: centered column */}
+              {/* Mobile: scroll so thumbs stay reachable; desktop: centered column */}
               <div className="relative flex h-full min-h-0 w-full max-md:max-h-full max-md:overflow-y-auto max-md:overflow-x-hidden max-md:overscroll-y-contain flex-col items-center justify-start max-md:pt-1 md:justify-center md:min-h-[240px]">
                 <div className="relative flex w-full min-h-0 max-md:flex-none md:flex-1 md:items-center md:justify-center">
                   <AnimatePresence initial={false} custom={direction} mode="popLayout">
@@ -182,22 +182,14 @@ export function GalleryMediaLightbox({
                         <img
                           src={active.src}
                           alt=""
-                          className={`h-auto w-auto max-w-full rounded-xl object-contain shadow-2xl ring-1 ring-white/10 md:max-w-full ${
-                            active.caption
-                              ? "max-h-[min(82dvh,calc(100dvh-10rem))] max-md:max-h-[min(52dvh,calc(100dvh-11rem))]"
-                              : "max-h-[82dvh] max-md:max-h-[min(78dvh,calc(100dvh-8rem))]"
-                          } md:max-h-[min(76dvh,100%)]`}
+                          className="h-auto w-auto max-h-[82dvh] max-w-full rounded-xl object-contain shadow-2xl ring-1 ring-white/10 max-md:max-h-[min(78dvh,calc(100dvh-8rem))] md:max-h-[min(76dvh,100%)] md:max-w-full"
                           draggable={false}
                         />
                       ) : (
                         <video
                           ref={videoRef}
                           src={active.src}
-                          className={`h-auto w-full rounded-xl bg-black object-contain shadow-2xl ring-1 ring-white/10 md:max-w-[min(100%,96rem)] ${
-                            active.caption
-                              ? "max-h-[82dvh] max-md:max-h-[min(46dvh,calc(100dvh-12rem))]"
-                              : "max-h-[82dvh] max-md:max-h-[min(70dvh,calc(100dvh-9rem))]"
-                          } md:max-h-[min(68dvh,100%)]`}
+                          className="h-auto w-full max-h-[82dvh] rounded-xl bg-black object-contain shadow-2xl ring-1 ring-white/10 max-md:max-h-[min(70dvh,calc(100dvh-9rem))] md:max-h-[min(68dvh,100%)] md:max-w-[min(100%,96rem)]"
                           controls
                           playsInline
                           autoPlay
@@ -240,14 +232,6 @@ export function GalleryMediaLightbox({
                     </>
                   )}
                 </div>
-
-                {active.caption ? (
-                  <p
-                    className="mt-2 max-w-[min(100%,36rem)] shrink-0 px-3 pb-2 text-center text-[11px] leading-relaxed tracking-wide text-white/82 max-md:mt-2.5 sm:text-xs md:mt-4 md:max-w-2xl md:pb-1 md:text-[15px] md:leading-snug md:tracking-normal md:text-white/88"
-                  >
-                    {active.caption}
-                  </p>
-                ) : null}
               </div>
             </div>
           </div>

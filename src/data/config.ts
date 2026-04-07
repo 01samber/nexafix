@@ -14,7 +14,7 @@ export const CONFIG = {
 
   // Contact
   website: "https://www.nexa-fix.com",
-  email: "Info@onps.us",
+  email: "info@nexa-fix.com",
   phone: "(508) 444-5080",
   /** Path for the QR on the last brochure slide; opens in the visitor’s browser, not as another slide. */
   contactCardPath: "/contact-card",

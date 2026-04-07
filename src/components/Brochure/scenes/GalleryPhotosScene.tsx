@@ -64,15 +64,10 @@ function PhotoTile({
       className={`group text-left outline-none ring-[#00d4ff]/0 transition focus-visible:ring-2 ${
         layout === "masonry"
           ? "mb-3 w-full break-inside-avoid overflow-hidden rounded-2xl border border-white/10 bg-[#0d1321]/80 shadow-[0_10px_40px_rgba(0,0,0,0.35)] active:scale-[0.99] sm:mb-4"
-          : "flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0d1321]/80 shadow-[0_8px_32px_rgba(0,0,0,0.35)] hover:border-[#00d4ff]/20"
+          : "overflow-hidden rounded-2xl border border-white/10 bg-[#0d1321]/80 shadow-[0_8px_32px_rgba(0,0,0,0.35)] hover:border-[#00d4ff]/20"
       }`}
     >
       {imageArea}
-      {item.caption ? (
-        <p className="border-t border-white/10 bg-[#0a0e17]/95 p-2.5 text-[11px] leading-snug text-white/80 sm:p-3 sm:text-xs md:line-clamp-3">
-          {item.caption}
-        </p>
-      ) : null}
     </motion.button>
   );
 }

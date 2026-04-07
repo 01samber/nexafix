@@ -62,7 +62,7 @@ See `.env.example` for the variable name.
 | Contact card UI | `src/components/Brochure/scenes/BackCoverScene.tsx` |
 | CTA copy & QR | `src/components/Brochure/scenes/CTAScene.tsx` |
 | Brochure scene order & titles | `src/data/scenes.ts` |
-| Gallery captions | `src/data/projectGalleryCaptions.json` (then run `node scripts/gen-main-gallery.js`) |
+| Main gallery files | `public/gallery/main` then `node scripts/gen-main-gallery.js` (`caption` fields stay empty) |
 
 ## Creative direction
 
