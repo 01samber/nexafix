@@ -52,6 +52,8 @@ npm run start
 
 4. Deploy. Production builds run `next build` automatically.
 
+5. **Page 6 QR is part of this app.** There is no separate QR file in Git. The code is in `src/components/Brochure/scenes/CTAScene.tsx` (package `qrcode.react`) and encodes `getContactCardUrl()` from `src/data/config.ts` (`/contact-card` on the **same** hostname visitors use for the brochure). One Vercel project from this repo deploys both the brochure and the contact card route. Use a separate Vercel project only if you intentionally host them on different domains.
+
 See `.env.example` for the variable name.
 
 ## Customization
