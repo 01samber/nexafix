@@ -5,7 +5,6 @@ import { motion } from "motion/react";
 import gsap from "gsap";
 import { QRCodeSVG } from "qrcode.react";
 import { Scene3DLazy } from "@/components/3D/Scene3DLazy";
-import { PremiumButton } from "@/components/ui/PremiumButton";
 import { useIsMobile } from "@/hooks/useIsMobile";
 import { CONFIG, getContactCardUrl } from "@/data/config";
 
@@ -62,8 +61,6 @@ export function CTAScene() {
               </span>
             </>
           )}
-          <br />
-          <span className="text-white/80">Or speak with us at our booth.</span>
         </p>
         {/* QR opens /contact-card in the visitor&apos;s browser */}
         <motion.div
@@ -91,11 +88,6 @@ export function CTAScene() {
             </span>
           </div>
         </motion.div>
-        <a href={`mailto:${CONFIG.email}?subject=Nexafix%20-%20ConnexFM%20${CONFIG.eventYear}%20Inquiry`}>
-          <PremiumButton size="lg" variant="primary">
-            Speak to Us at Booth
-          </PremiumButton>
-        </a>
       </div>
     </div>
   );
